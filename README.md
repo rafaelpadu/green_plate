@@ -1,4 +1,4 @@
-# fresh_finder
+# green_plate
 
 A new Flutter project.
 

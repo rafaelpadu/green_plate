@@ -1,4 +1,4 @@
-package com.example.fresh_finder
+package com.example.green_plate
 
 import io.flutter.embedding.android.FlutterActivity
 
