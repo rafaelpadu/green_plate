@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:green_plate/firebase_options.dart';
 import 'package:green_plate/src/config/theme_colors.dart';
-import 'package:green_plate/src/presentation/features/home/view/home_screen.dart';
+import 'package:green_plate/src/presentation/features/main/home/view/home_screen.dart';
+
+import 'src/presentation/features/main/green_plate_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,7 +27,8 @@ class GreenPlateApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeColors().lightThemeData(),
-      home: const HomeScreen(),
+      debugShowCheckedModeBanner: true,
+      home: const GreenPlateScreen(),
     );
   }
 }

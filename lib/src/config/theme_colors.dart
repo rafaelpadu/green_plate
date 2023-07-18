@@ -6,15 +6,12 @@ class ThemeColors {
   static Color primaryFontColor = const Color.fromRGBO(55, 71, 79, 1);
   static Color backGroundColor =
       Color.alphaBlend(const Color.fromRGBO(252, 252, 252, 0.6), const Color.fromRGBO(254, 254, 254, .55));
-  static Color secondaryBackGroundColor = Colors.white;
 
   ThemeData lightThemeData() {
     primary = const Color.fromRGBO(94, 196, 1, 1);
     secondary = const Color.fromRGBO(243, 122, 32, 1);
     primaryFontColor = const Color.fromRGBO(55, 71, 79, 1);
-    backGroundColor =
-        Color.alphaBlend(const Color.fromRGBO(252, 252, 252, 0.6), const Color.fromRGBO(254, 254, 254, .55));
-    secondaryBackGroundColor = Colors.white;
+    backGroundColor = Colors.white;
 
     return ThemeData(
       primaryColor: primary,
@@ -35,10 +32,11 @@ class ThemeColors {
       ),
       appBarTheme: AppBarTheme(
         elevation: 0,
-        backgroundColor: secondaryBackGroundColor,
-        titleTextStyle: TextStyle(color: ThemeColors.primary, fontSize: 24, fontWeight: FontWeight.w300),
+        backgroundColor: backGroundColor,
+        titleTextStyle: TextStyle(color: ThemeColors.primaryFontColor, fontSize: 20, fontWeight: FontWeight.w600),
         iconTheme: IconThemeData(color: ThemeColors.primaryFontColor),
       ),
+      iconTheme: IconThemeData(color: primaryFontColor),
     );
   }
 }
