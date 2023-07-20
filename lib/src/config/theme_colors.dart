@@ -11,7 +11,7 @@ class ThemeColors {
     primary = const Color.fromRGBO(94, 196, 1, 1);
     secondary = const Color.fromRGBO(243, 122, 32, 1);
     primaryFontColor = const Color.fromRGBO(55, 71, 79, 1);
-    backGroundColor = Colors.white;
+    backGroundColor = Colors.grey[300] ?? Colors.grey;
 
     return ThemeData(
       primaryColor: primary,
