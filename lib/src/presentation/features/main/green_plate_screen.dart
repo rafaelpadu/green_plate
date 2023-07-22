@@ -48,6 +48,9 @@ class _GreenPlateScreenState extends State<GreenPlateScreen> {
             topLeft: Radius.circular(20),
             topRight: Radius.circular(20),
           ),
+          boxShadow: [
+            BoxShadow(color: Color.fromARGB(61, 0, 0, 1), blurRadius: 7, offset: Offset(0, 2), spreadRadius: 0)
+          ],
         ),
         child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
           GestureDetector(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:green_plate/src/config/theme_colors.dart';
+import 'package:green_plate/src/presentation/features/products/views/product_list_screen.dart';
 import 'package:green_plate/src/presentation/widgets/data_driven/card_image.dart';
 import 'package:green_plate/src/presentation/widgets/data_driven/card_list.dart';
 
@@ -12,8 +13,11 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _searchController = TextEditingController();
-  List<Widget> categories = [
-    const CardImageWidget(title: 'Frutos e Vegetais', imageAsset: 'lib/res/assets/images/categories/fruits.png'),
+  List<CardImageWidget> categories = [
+    const CardImageWidget(
+      title: 'Frutos e Vegetais',
+      imageAsset: 'lib/res/assets/images/categories/fruits.png',
+    ),
     const CardImageWidget(title: 'Café da Manhã', imageAsset: 'lib/res/assets/images/categories/breakfast.png'),
     const CardImageWidget(title: 'Bebidas', imageAsset: 'lib/res/assets/images/categories/beveares.png'),
     const CardImageWidget(title: 'Carnes e Peixes', imageAsset: 'lib/res/assets/images/categories/meat.png'),
@@ -83,11 +87,21 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             Container(
               constraints: BoxConstraints(maxHeight: MediaQuery.sizeOf(context).height - 100),
-              child: CardListWidget(cardItems: categories),
-            )
+              child: CardListWidget(
+                  cardItems: categories,
+                  onPressed: (item) {
+                    if (item is CardImageWidget) {
+                      nextPage(item, context);
+                    }
+                  }),
+            ),
           ],
         ),
       ),
     );
+  }
+
+  void nextPage(CardImageWidget item, BuildContext context) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => const ProductListScreen()));
   }
 }

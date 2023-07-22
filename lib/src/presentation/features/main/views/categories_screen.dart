@@ -8,20 +8,22 @@ class CategoriesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<CardImageWidget> categories = [
+      const CardImageWidget(title: 'Frutos e Vegetais', imageAsset: 'lib/res/assets/images/categories/fruits.png'),
+      const CardImageWidget(title: 'Café da Manhã', imageAsset: 'lib/res/assets/images/categories/breakfast.png'),
+      const CardImageWidget(title: 'Bebidas', imageAsset: 'lib/res/assets/images/categories/beveares.png'),
+      const CardImageWidget(title: 'Carnes e Peixes', imageAsset: 'lib/res/assets/images/categories/meat.png'),
+      const CardImageWidget(title: 'Lanches', imageAsset: 'lib/res/assets/images/categories/chips.png'),
+      const CardImageWidget(title: 'Laticínios', imageAsset: 'lib/res/assets/images/categories/milk.png'),
+    ];
     return SingleChildScrollView(
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-        child: CardListWidget(cardItems: _categories),
+        child: CardListWidget(
+          cardItems: categories,
+          onPressed: (item) => print(item),
+        ),
       ),
     );
   }
 }
-
-List<Widget> _categories = [
-  const CardImageWidget(title: 'Frutos e Vegetais', imageAsset: 'lib/res/assets/images/categories/fruits.png'),
-  const CardImageWidget(title: 'Café da Manhã', imageAsset: 'lib/res/assets/images/categories/breakfast.png'),
-  const CardImageWidget(title: 'Bebidas', imageAsset: 'lib/res/assets/images/categories/beveares.png'),
-  const CardImageWidget(title: 'Carnes e Peixes', imageAsset: 'lib/res/assets/images/categories/meat.png'),
-  const CardImageWidget(title: 'Lanches', imageAsset: 'lib/res/assets/images/categories/chips.png'),
-  const CardImageWidget(title: 'Laticínios', imageAsset: 'lib/res/assets/images/categories/milk.png'),
-];

@@ -4,6 +4,7 @@ class ThemeColors {
   static Color primary = const Color.fromRGBO(94, 196, 1, 1);
   static Color secondary = const Color.fromRGBO(243, 122, 32, 1);
   static Color primaryFontColor = const Color.fromRGBO(55, 71, 79, 1);
+  static Color whiteFontColor = Colors.white;
   static Color backGroundColor =
       Color.alphaBlend(const Color.fromRGBO(252, 252, 252, 0.6), const Color.fromRGBO(254, 254, 254, .55));
 
@@ -11,7 +12,7 @@ class ThemeColors {
     primary = const Color.fromRGBO(94, 196, 1, 1);
     secondary = const Color.fromRGBO(243, 122, 32, 1);
     primaryFontColor = const Color.fromRGBO(55, 71, 79, 1);
-    backGroundColor = Colors.grey[300] ?? Colors.grey;
+    backGroundColor = const Color.fromRGBO(251, 252, 255, 1);
 
     return ThemeData(
       primaryColor: primary,
@@ -51,4 +52,10 @@ Map<int, Color> primaryLightColor = const {
   700: Color.fromRGBO(69, 142, 1, 1),
   800: Color.fromRGBO(59, 122, 1, 1),
   900: Color.fromRGBO(49, 101, 1, 1),
+};
+
+Map<String, FontWeight> pesosDeFonte = const {
+  'regular': FontWeight.normal,
+  'medium': FontWeight.w500,
+  'bold': FontWeight.w700
 };

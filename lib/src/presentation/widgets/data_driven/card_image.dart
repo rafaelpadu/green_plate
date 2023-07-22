@@ -12,26 +12,25 @@ class CardImageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {},
+    return SizedBox(
+      width: 189,
+      height: 173,
       child: Card(
         color: Colors.white,
         surfaceTintColor: Colors.white,
+        elevation: 4,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(9)),
+        clipBehavior: Clip.antiAliasWithSaveLayer,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
               imageAsset,
-              fit: BoxFit.cover,
+              fit: BoxFit.fill,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                  child: Text(title),
-                ),
-              ],
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 8),
+              child: Text(title),
             ),
           ],
         ),
