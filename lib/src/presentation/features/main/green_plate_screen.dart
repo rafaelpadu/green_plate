@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:green_plate/src/config/theme_colors.dart';
 import 'package:green_plate/src/presentation/features/main/views/categories_screen.dart';
 import 'package:green_plate/src/presentation/features/main/views/home_screen.dart';
+import 'package:green_plate/src/presentation/features/main/views/stores_screen.dart';
 
 class GreenPlateScreen extends StatefulWidget {
   const GreenPlateScreen({super.key});
@@ -14,7 +15,7 @@ class _GreenPlateScreenState extends State<GreenPlateScreen> {
   final List<Widget> _children = const [
     HomeScreen(),
     CategoriesScreen(),
-    HomeScreen(),
+    StoresScreen(),
     HomeScreen(),
   ];
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
@@ -85,7 +86,7 @@ class _GreenPlateScreenState extends State<GreenPlateScreen> {
               backgroundColor: _getAvatarBGColor(2),
               radius: 28,
               child: Icon(
-                Icons.local_mall_outlined,
+                Icons.storefront_outlined,
                 size: 28,
                 color: _getAvatarIconColor(2),
               ),
@@ -94,12 +95,24 @@ class _GreenPlateScreenState extends State<GreenPlateScreen> {
           GestureDetector(
             onTap: () => onTabTapped(3),
             child: CircleAvatar(
-              radius: 28,
               backgroundColor: _getAvatarBGColor(3),
+              radius: 28,
+              child: Icon(
+                Icons.local_mall_outlined,
+                size: 28,
+                color: _getAvatarIconColor(3),
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: () => onTabTapped(4),
+            child: CircleAvatar(
+              radius: 28,
+              backgroundColor: _getAvatarBGColor(4),
               child: Icon(
                 Icons.menu_rounded,
                 size: 28,
-                color: _getAvatarIconColor(3),
+                color: _getAvatarIconColor(4),
               ),
             ),
           ),
@@ -118,6 +131,9 @@ class _GreenPlateScreenState extends State<GreenPlateScreen> {
           break;
         case 1:
           _title = 'Categorias';
+          break;
+        case 2:
+          _title = 'Lojas';
           break;
       }
     });

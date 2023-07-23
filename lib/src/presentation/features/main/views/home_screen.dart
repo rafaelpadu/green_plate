@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:green_plate/src/config/theme_colors.dart';
 import 'package:green_plate/src/presentation/features/products/views/product_list_screen.dart';
-import 'package:green_plate/src/presentation/widgets/data_driven/card_image.dart';
+import 'package:green_plate/src/presentation/widgets/data_driven/simple_card_image.dart';
 import 'package:green_plate/src/presentation/widgets/data_driven/card_list.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -13,16 +13,16 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _searchController = TextEditingController();
-  List<CardImageWidget> categories = [
-    const CardImageWidget(
+  List<SimpleCardImageWidget> categories = [
+    const SimpleCardImageWidget(
       title: 'Frutos e Vegetais',
       imageAsset: 'lib/res/assets/images/categories/fruits.png',
     ),
-    const CardImageWidget(title: 'Café da Manhã', imageAsset: 'lib/res/assets/images/categories/breakfast.png'),
-    const CardImageWidget(title: 'Bebidas', imageAsset: 'lib/res/assets/images/categories/beveares.png'),
-    const CardImageWidget(title: 'Carnes e Peixes', imageAsset: 'lib/res/assets/images/categories/meat.png'),
-    const CardImageWidget(title: 'Lanches', imageAsset: 'lib/res/assets/images/categories/chips.png'),
-    const CardImageWidget(title: 'Laticínios', imageAsset: 'lib/res/assets/images/categories/milk.png'),
+    const SimpleCardImageWidget(title: 'Café da Manhã', imageAsset: 'lib/res/assets/images/categories/breakfast.png'),
+    const SimpleCardImageWidget(title: 'Bebidas', imageAsset: 'lib/res/assets/images/categories/beveares.png'),
+    const SimpleCardImageWidget(title: 'Carnes e Peixes', imageAsset: 'lib/res/assets/images/categories/meat.png'),
+    const SimpleCardImageWidget(title: 'Lanches', imageAsset: 'lib/res/assets/images/categories/chips.png'),
+    const SimpleCardImageWidget(title: 'Laticínios', imageAsset: 'lib/res/assets/images/categories/milk.png'),
   ];
   @override
   Widget build(BuildContext context) {
@@ -90,7 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: CardListWidget(
                   cardItems: categories,
                   onPressed: (item) {
-                    if (item is CardImageWidget) {
+                    if (item is SimpleCardImageWidget) {
                       nextPage(item, context);
                     }
                   }),
@@ -101,7 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void nextPage(CardImageWidget item, BuildContext context) {
+  void nextPage(SimpleCardImageWidget item, BuildContext context) {
     Navigator.push(context, MaterialPageRoute(builder: (context) => const ProductListScreen()));
   }
 }

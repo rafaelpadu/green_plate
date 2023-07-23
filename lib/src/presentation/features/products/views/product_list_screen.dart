@@ -40,11 +40,11 @@ class _ProductListScreenState extends State<ProductListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Carnes e Peixes'),
+        title: const Text('Carnes e Peixes'),
       ),
       body: SingleChildScrollView(
         child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
             child: CardListWidget(
               cardItems: saleProductList,
               onPressed: (item) => print(item),

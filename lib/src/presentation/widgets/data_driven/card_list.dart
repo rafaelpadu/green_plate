@@ -1,7 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:green_plate/src/presentation/features/products/views/product_list_screen.dart';
-import 'package:green_plate/src/presentation/widgets/data_driven/card_image.dart';
 
 class CardListWidget extends StatelessWidget {
   final List<Widget> cardItems;
@@ -27,7 +25,7 @@ class CardListWidget extends StatelessWidget {
                     onPressed(cardItems[primeiroItem]);
                   },
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.only(top: 4.0, right: 4, bottom: 4),
                     child: cardItems[primeiroItem],
                   ),
                 ),
@@ -39,7 +37,7 @@ class CardListWidget extends StatelessWidget {
                     onPressed(cardItems[segundoItem]);
                   },
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.only(top: 4.0, left: 4, bottom: 4),
                     child: cardItems[segundoItem],
                   ),
                 ),
