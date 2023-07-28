@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:green_plate/src/config/theme_colors.dart';
 
@@ -9,15 +8,17 @@ class StoreCardImage extends StatelessWidget {
   final String storeName;
   final String description;
   final double distance;
-  const StoreCardImage({
-    Key? key,
-    required this.imageUrl,
-    required this.rating,
-    required this.storeType,
-    required this.storeName,
-    required this.description,
-    required this.distance,
-  }) : super(key: key);
+  final Function() goToStorePage;
+  const StoreCardImage(
+      {Key? key,
+      required this.imageUrl,
+      required this.rating,
+      required this.storeType,
+      required this.storeName,
+      required this.description,
+      required this.distance,
+      required this.goToStorePage})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
