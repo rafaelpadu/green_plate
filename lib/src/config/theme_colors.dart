@@ -7,12 +7,15 @@ class ThemeColors {
   static Color whiteFontColor = Colors.white;
   static Color backGroundColor =
       Color.alphaBlend(const Color.fromRGBO(252, 252, 252, 0.6), const Color.fromRGBO(254, 254, 254, .55));
+  static Color blackFontColor = Colors.black;
+  static Color dividerColor = const Color.fromRGBO(240, 240, 240, 1);
 
   ThemeData lightThemeData() {
     primary = const Color.fromRGBO(94, 196, 1, 1);
     secondary = const Color.fromRGBO(243, 122, 32, 1);
     primaryFontColor = const Color.fromRGBO(55, 71, 79, 1);
     backGroundColor = const Color.fromRGBO(251, 252, 255, 1);
+    dividerColor = const Color.fromRGBO(240, 240, 240, 1);
 
     return ThemeData(
       primaryColor: primary,
@@ -38,6 +41,7 @@ class ThemeColors {
         iconTheme: IconThemeData(color: ThemeColors.primaryFontColor),
       ),
       iconTheme: IconThemeData(color: primaryFontColor),
+      dividerColor: dividerColor,
     );
   }
 }
@@ -57,5 +61,6 @@ Map<int, Color> primaryLightColor = const {
 Map<String, FontWeight> pesosDeFonte = const {
   'regular': FontWeight.normal,
   'medium': FontWeight.w500,
-  'bold': FontWeight.w700
+  'bold': FontWeight.w700,
+  'semi-bold': FontWeight.w600
 };
