@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:green_plate/src/config/theme_colors.dart';
 
+import '../../features/products/views/product_screen.dart';
+
 class SaleProductCard extends StatelessWidget {
   const SaleProductCard({
     super.key,
@@ -8,11 +10,15 @@ class SaleProductCard extends StatelessWidget {
     required this.productValue,
     required this.productDescription,
     required this.productId,
+    required this.addToCart,
+    required this.productPage,
   });
   final String imageUrl;
   final double productValue;
   final String productDescription;
   final int productId;
+  final Function() addToCart;
+  final Function() productPage;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -23,7 +29,7 @@ class SaleProductCard extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.asset(imageUrl),
+              GestureDetector(onTap: productPage, child: Image.asset(imageUrl)),
               Text(
                 productDescription,
                 style: const TextStyle(color: Colors.black),
@@ -49,7 +55,7 @@ class SaleProductCard extends StatelessWidget {
                 color: ThemeColors.primary,
                 child: InkWell(
                   customBorder: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7)),
-                  onTap: () {},
+                  onTap: addToCart,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
