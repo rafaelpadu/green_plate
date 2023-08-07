@@ -4,6 +4,7 @@ class ThemeColors {
   static Color primary = const Color.fromRGBO(94, 196, 1, 1);
   static Color secondary = const Color.fromRGBO(243, 122, 32, 1);
   static Color primaryFontColor = const Color.fromRGBO(55, 71, 79, 1);
+  static Color primaryFontLowOpacityColor = const Color.fromRGBO(55, 71, 79, 0.72);
   static Color whiteFontColor = Colors.white;
   static Color backGroundColor =
       Color.alphaBlend(const Color.fromRGBO(252, 252, 252, 0.6), const Color.fromRGBO(254, 254, 254, .55));

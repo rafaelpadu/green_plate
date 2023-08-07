@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:green_plate/src/config/theme_colors.dart';
+import 'package:green_plate/src/presentation/features/authentication/views/reset_password/verification_code.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -90,7 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
             Column(
               children: [
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () => goToResetPasswordScreen(),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     child: Text(
@@ -168,5 +169,9 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       )),
     );
+  }
+
+  goToResetPasswordScreen() {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => const VerificationNumberScreen()));
   }
 }
