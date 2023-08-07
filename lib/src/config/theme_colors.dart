@@ -9,6 +9,8 @@ class ThemeColors {
       Color.alphaBlend(const Color.fromRGBO(252, 252, 252, 0.6), const Color.fromRGBO(254, 254, 254, .55));
   static Color blackFontColor = Colors.black;
   static Color dividerColor = const Color.fromRGBO(240, 240, 240, 1);
+  static Color blueIconColor = const Color.fromRGBO(35, 108, 217, 1);
+  static Color textFieldBackGround = const Color.fromRGBO(240, 241, 242, 1);
 
   ThemeData lightThemeData() {
     primary = const Color.fromRGBO(94, 196, 1, 1);

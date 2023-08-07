@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:green_plate/src/config/theme_colors.dart';
 import 'package:green_plate/src/presentation/features/main/views/categories_screen.dart';
 import 'package:green_plate/src/presentation/features/main/views/home_screen.dart';
+import 'package:green_plate/src/presentation/features/main/views/more_info.dart';
 import 'package:green_plate/src/presentation/features/main/views/stores_screen.dart';
 
 class GreenPlateScreen extends StatefulWidget {
@@ -17,6 +18,7 @@ class _GreenPlateScreenState extends State<GreenPlateScreen> {
     CategoriesScreen(),
     StoresScreen(),
     HomeScreen(),
+    MoreInfoScreen(),
   ];
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   int _currentIndex = 0;
@@ -134,6 +136,9 @@ class _GreenPlateScreenState extends State<GreenPlateScreen> {
           break;
         case 2:
           _title = 'Lojas';
+          break;
+        case 4:
+          _title = 'Mais';
           break;
       }
     });
