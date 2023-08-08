@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:green_plate/src/config/theme_colors.dart';
-import 'package:green_plate/src/presentation/features/authentication/views/reset_password/verification_code.dart';
+import 'package:green_plate/src/presentation/features/authentication/views/reset_password/verification_number_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});

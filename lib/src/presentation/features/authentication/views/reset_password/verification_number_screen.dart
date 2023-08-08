@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:green_plate/src/config/theme_colors.dart';
+import 'package:green_plate/src/presentation/features/authentication/views/reset_password/code_confirmation_screen.dart';
 
 class VerificationNumberScreen extends StatelessWidget {
   const VerificationNumberScreen({super.key});
@@ -24,7 +25,7 @@ class VerificationNumberScreen extends StatelessWidget {
                 Center(
                   child: Image.asset(
                     'lib/res/assets/images/arts/reset_password.png',
-                    height: 250,
+                    height: 200,
                   ),
                 ),
                 Column(
@@ -63,7 +64,7 @@ class VerificationNumberScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                   child: InkWell(
                     customBorder: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                    onTap: () {},
+                    onTap: () => goToResetPasswordScreen(context),
                     child: Padding(
                       padding: const EdgeInsets.all(12.0),
                       child: Row(
@@ -93,5 +94,9 @@ class VerificationNumberScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  goToResetPasswordScreen(BuildContext context) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => const CodeConfirmationScreen()));
   }
 }
