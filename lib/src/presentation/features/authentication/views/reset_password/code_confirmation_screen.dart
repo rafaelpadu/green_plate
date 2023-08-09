@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:green_plate/src/config/theme_colors.dart';
+import 'package:green_plate/src/presentation/features/authentication/views/reset_password/password_confirmation_screen.dart';
 
 class CodeConfirmationScreen extends StatefulWidget {
   const CodeConfirmationScreen({super.key});
@@ -265,5 +266,7 @@ class _CodeConfirmationScreenState extends State<CodeConfirmationScreen> {
     );
   }
 
-  void goToConfimarionScreen() {}
+  void goToConfimarionScreen() {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => const PasswordConfirmationScreen()));
+  }
 }
