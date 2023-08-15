@@ -12,7 +12,7 @@ class ThemeColors {
   static Color dividerColor = const Color.fromRGBO(240, 240, 240, 1);
   static Color blueIconColor = const Color.fromRGBO(35, 108, 217, 1);
   static Color textFieldBackGround = const Color.fromRGBO(240, 241, 242, 1);
-
+  static Color greyBackGroundColor = const Color.fromRGBO(159, 157, 157, .55);
   ThemeData lightThemeData() {
     primary = const Color.fromRGBO(94, 196, 1, 1);
     secondary = const Color.fromRGBO(243, 122, 32, 1);

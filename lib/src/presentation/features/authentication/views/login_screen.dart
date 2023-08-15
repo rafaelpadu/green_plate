@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:green_plate/src/config/theme_colors.dart';
+import 'package:green_plate/src/presentation/features/authentication/views/registration/registration_mode_selection.dart';
 import 'package:green_plate/src/presentation/features/authentication/views/reset_password/verification_number_screen.dart';
+import 'package:green_plate/src/presentation/widgets/independent/green_plate_logo.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -28,20 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
             const SizedBox(
               height: 90,
             ),
-            Column(
-              children: [
-                Image.asset('lib/res/assets/images/logos/main_logo.png'),
-                RichText(
-                    text:
-                        TextSpan(style: TextStyle(fontSize: 31, color: ThemeColors.primary), children: const <TextSpan>[
-                  TextSpan(text: 'GREEN '),
-                  TextSpan(
-                    text: ' PLATE',
-                    style: TextStyle(fontWeight: FontWeight.w800),
-                  )
-                ]))
-              ],
-            ),
+            greenPlateLogo,
             Column(
               children: [
                 Padding(
@@ -138,7 +127,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     borderRadius: BorderRadius.circular(8),
                     child: InkWell(
                       customBorder: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                      onTap: () {},
+                      onTap: () => goToRegistrationScreen(),
                       child: Padding(
                         padding: const EdgeInsets.all(12.0),
                         child: Row(
@@ -173,5 +162,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
   goToResetPasswordScreen() {
     Navigator.push(context, MaterialPageRoute(builder: (context) => const VerificationNumberScreen()));
+  }
+
+  goToRegistrationScreen() {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => const RegistrationModeSelectionScreen()));
   }
 }
