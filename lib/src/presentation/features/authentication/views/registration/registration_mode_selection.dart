@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:green_plate/src/config/theme_colors.dart';
+import 'package:green_plate/src/presentation/features/authentication/views/registration/personal_info_screen.dart';
 import 'package:green_plate/src/presentation/widgets/independent/green_plate_logo.dart';
 
 class RegistrationModeSelectionScreen extends StatelessWidget {
@@ -35,7 +36,7 @@ class RegistrationModeSelectionScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                   child: InkWell(
                     customBorder: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                    onTap: () {},
+                    onTap: () => goToPersonalInfoScreen(context),
                     child: Padding(
                       padding: const EdgeInsets.all(12),
                       child: Row(
@@ -65,7 +66,7 @@ class RegistrationModeSelectionScreen extends StatelessWidget {
                       customBorder: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      onTap: () {},
+                      onTap: () => goToPersonalInfoScreen(context),
                       child: Container(
                         decoration: BoxDecoration(
                           border: Border.all(color: ThemeColors.primaryFontColor, width: 0.5),
@@ -101,7 +102,7 @@ class RegistrationModeSelectionScreen extends StatelessWidget {
                           color: ThemeColors.backGroundColor,
                           borderRadius: BorderRadiusDirectional.circular(10),
                           child: InkWell(
-                            onTap: () {},
+                            onTap: () => goToPersonalInfoScreen(context),
                             borderRadius: BorderRadius.circular(10),
                             child: Container(
                               decoration: BoxDecoration(
@@ -127,7 +128,7 @@ class RegistrationModeSelectionScreen extends StatelessWidget {
                         color: ThemeColors.backGroundColor,
                         borderRadius: BorderRadiusDirectional.circular(10),
                         child: InkWell(
-                          onTap: () {},
+                          onTap: () => goToPersonalInfoScreen(context),
                           borderRadius: BorderRadius.circular(10),
                           child: Container(
                             decoration: BoxDecoration(
@@ -155,5 +156,9 @@ class RegistrationModeSelectionScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  goToPersonalInfoScreen(BuildContext context) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => PersonalInfoScreen()));
   }
 }

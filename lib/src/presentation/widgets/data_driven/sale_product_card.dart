@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:green_plate/src/config/theme_colors.dart';
 
-import '../../features/products/views/product_screen.dart';
-
 class SaleProductCard extends StatelessWidget {
   const SaleProductCard({
     super.key,
