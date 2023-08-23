@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:green_plate/src/domain/model/store.dart';
+import 'package:green_plate/src/presentation/features/store/views/store_screen.dart';
 import 'package:green_plate/src/presentation/widgets/data_driven/card_list.dart';
 import 'package:green_plate/src/presentation/widgets/data_driven/store_card_image.dart';
 
@@ -21,7 +22,7 @@ class StoresScreen extends StatelessWidget {
               storeName: store.storeName,
               description: store.description,
               distance: store.distance,
-              goToStorePage: goToPagesStore,
+              goToStorePage: () => goToPagesStore(context),
             );
           }),
         ),
@@ -29,8 +30,8 @@ class StoresScreen extends StatelessWidget {
     );
   }
 
-  void goToPagesStore() {
-    print("Alou");
+  void goToPagesStore(BuildContext context) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => const StoreScreen()));
   }
 }
 

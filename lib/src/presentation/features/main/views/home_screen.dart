@@ -46,9 +46,9 @@ class _HomeScreenState extends State<HomeScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 24),
               child: Container(
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(8)),
-                  color: Color(0xFFF0F1F2),
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(Radius.circular(8)),
+                  color: ThemeColors.textFieldBackGround,
                 ),
                 padding: const EdgeInsets.symmetric(vertical: 4),
                 child: TextFormField(

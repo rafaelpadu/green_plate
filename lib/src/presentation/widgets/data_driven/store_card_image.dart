@@ -22,59 +22,62 @@ class StoreCardImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 167,
-      height: 168,
-      child: Card(
-        color: Colors.white,
-        surfaceTintColor: Colors.white,
-        elevation: 4,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(9)),
-        clipBehavior: Clip.antiAliasWithSaveLayer,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              imageUrl,
-              fit: BoxFit.fill,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 2),
-              child: Text(
-                storeName,
-                style: TextStyle(fontWeight: pesosDeFonte['medium']),
+    return GestureDetector(
+      onTap: goToStorePage,
+      child: SizedBox(
+        width: 167,
+        height: 168,
+        child: Card(
+          color: Colors.white,
+          surfaceTintColor: Colors.white,
+          elevation: 4,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(9)),
+          clipBehavior: Clip.antiAliasWithSaveLayer,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                imageUrl,
+                fit: BoxFit.fill,
               ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(
-                  Icons.star,
-                  color: Colors.yellow,
-                  size: 14,
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 2),
+                child: Text(
+                  storeName,
+                  style: TextStyle(fontWeight: pesosDeFonte['medium']),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 4),
-                  child: Text(
-                    rating.toString(),
-                    style: const TextStyle(color: Colors.yellow, fontSize: 10),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(
+                    Icons.star,
+                    color: Colors.yellow,
+                    size: 14,
                   ),
-                ),
-                Text(
-                  "| $storeType | ",
-                  style: const TextStyle(fontSize: 10),
-                ),
-                Text(
-                  "${distance.toString()} km",
-                  style: const TextStyle(fontSize: 10),
-                ),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8),
-              child: Text(description, style: const TextStyle(fontSize: 10)),
-            )
-          ],
+                  Padding(
+                    padding: const EdgeInsets.only(right: 4),
+                    child: Text(
+                      rating.toString(),
+                      style: const TextStyle(color: Colors.yellow, fontSize: 10),
+                    ),
+                  ),
+                  Text(
+                    "| $storeType | ",
+                    style: const TextStyle(fontSize: 10),
+                  ),
+                  Text(
+                    "${distance.toString()} km",
+                    style: const TextStyle(fontSize: 10),
+                  ),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: Text(description, style: const TextStyle(fontSize: 10)),
+              )
+            ],
+          ),
         ),
       ),
     );
