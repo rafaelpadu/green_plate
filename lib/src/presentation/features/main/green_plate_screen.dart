@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:green_plate/src/config/theme_colors.dart';
+import 'package:green_plate/src/presentation/features/bag/views/bag_screen.dart';
 import 'package:green_plate/src/presentation/features/main/views/categories_screen.dart';
 import 'package:green_plate/src/presentation/features/main/views/home_screen.dart';
 import 'package:green_plate/src/presentation/features/main/views/more_info.dart';
@@ -17,7 +18,7 @@ class _GreenPlateScreenState extends State<GreenPlateScreen> {
     HomeScreen(),
     CategoriesScreen(),
     StoresScreen(),
-    HomeScreen(),
+    BagScreen(),
     MoreInfoScreen(),
   ];
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
@@ -136,6 +137,9 @@ class _GreenPlateScreenState extends State<GreenPlateScreen> {
           break;
         case 2:
           _title = 'Lojas';
+          break;
+        case 3:
+          _title = 'Minha Sacola';
           break;
         case 4:
           _title = 'Mais';

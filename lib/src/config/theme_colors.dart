@@ -13,6 +13,10 @@ class ThemeColors {
   static Color blueIconColor = const Color.fromRGBO(35, 108, 217, 1);
   static Color textFieldBackGround = const Color.fromRGBO(240, 241, 242, 1);
   static Color greyBackGroundColor = const Color.fromRGBO(159, 157, 157, .55);
+
+  static Color greenBackGroundColor = const Color.fromRGBO(54, 179, 126, .14);
+
+  static Color errorColor = const Color.fromRGBO(255, 85, 82, 1);
   ThemeData lightThemeData() {
     primary = const Color.fromRGBO(94, 196, 1, 1);
     secondary = const Color.fromRGBO(243, 122, 32, 1);

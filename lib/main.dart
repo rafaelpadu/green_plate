@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:green_plate/firebase_options.dart';
 import 'package:green_plate/src/config/theme_colors.dart';
+import 'package:intl/intl.dart';
 
 import 'src/presentation/features/main/green_plate_screen.dart';
 
@@ -15,6 +16,7 @@ void main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+  Intl.defaultLocale = 'pt_BR';
   runApp(const GreenPlateApp());
 }
 
