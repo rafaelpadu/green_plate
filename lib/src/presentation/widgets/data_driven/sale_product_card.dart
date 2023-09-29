@@ -27,7 +27,30 @@ class SaleProductCard extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              GestureDetector(onTap: productPage, child: Image.asset(imageUrl)),
+              GestureDetector(
+                onTap: productPage,
+                child: Image.network(
+                  imageUrl,
+                  width: 200,
+                  height: 185,
+                  loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                    if (loadingProgress == null) return child;
+                    return Center(
+                      child: CircularProgressIndicator(
+                        value: loadingProgress.expectedTotalBytes != null
+                            ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
+                            : null,
+                      ),
+                    );
+                  },
+                  errorBuilder: (context, error, stackTrace) => Image.asset(
+                    'lib/res/assets/images/imagem_padrao.png',
+                    fit: BoxFit.cover,
+                    width: 230,
+                    height: 185,
+                  ),
+                ),
+              ),
               Text(
                 productDescription,
                 style: const TextStyle(color: Colors.black),
@@ -40,7 +63,7 @@ class SaleProductCard extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 child: Text(
-                  "R\$ $productValue",
+                  "R\$ ${productValue.toStringAsFixed(2).replaceAll('.', ',')}",
                   style: TextStyle(
                     color: ThemeColors.secondary,
                     fontSize: 16,

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:green_plate/src/config/theme_colors.dart';
 import 'package:green_plate/src/presentation/features/bag/views/bag_product_card.dart';
-import 'package:green_plate/src/presentation/features/products/views/product_list_screen.dart';
 import 'package:green_plate/src/presentation/widgets/data_driven/delivery_location.dart';
+
+import '../../../../domain/model/product.dart';
 
 class BagScreen extends StatefulWidget {
   const BagScreen({super.key});
@@ -12,6 +13,7 @@ class BagScreen extends StatefulWidget {
 }
 
 class _BagScreenState extends State<BagScreen> {
+  List<Product> saleProductList = [];
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(

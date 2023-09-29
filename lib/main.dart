@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:green_plate/firebase_options.dart';
 import 'package:green_plate/src/config/theme_colors.dart';
+import 'package:green_plate/src/data/providers/cart_provider.dart';
+import 'package:green_plate/src/domain/model/DTOs/pedido_dto.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 import 'src/presentation/features/main/green_plate_screen.dart';
 
@@ -17,7 +20,10 @@ void main() async {
     DeviceOrientation.portraitDown,
   ]);
   Intl.defaultLocale = 'pt_BR';
-  runApp(const GreenPlateApp());
+  runApp(MultiProvider(
+    providers: [ChangeNotifierProvider<CartProvider>(create: (_) => CartProvider(pedido: PedidoDTO.emptyPedido()))],
+    child: const GreenPlateApp(),
+  ));
 }
 
 class GreenPlateApp extends StatelessWidget {

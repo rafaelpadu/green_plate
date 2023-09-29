@@ -76,18 +76,18 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-            Container(
-              constraints: BoxConstraints(maxHeight: MediaQuery.sizeOf(context).height - 100),
-              child: CardListWidget(
-                cardItems: List.generate(
-                  categories.length,
-                  (index) => SimpleCardImageWidget(
-                      title: categories[index].title,
-                      imageAsset: categories[index].imageAsset,
-                      nextPage: () => nextPage(context)),
-                ),
-              ),
-            ),
+            // Container(
+            //   constraints: BoxConstraints(maxHeight: MediaQuery.sizeOf(context).height - 100),
+            //   child: CardListWidget(
+            //     cardItems: List.generate(
+            //       categories.length,
+            //       (index) => SimpleCardImageWidget(
+            //           title: categories[index].title,
+            //           imageAsset: categories[index].imageAsset,
+            //           nextPage: () => nextPage(context)),
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),
@@ -95,15 +95,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void nextPage(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => const ProductListScreen()));
+    // Navigator.push(context, MaterialPageRoute(builder: (context) => const ProductListScreen()));
   }
 }
-
-List<Categorie> categories = [
-  Categorie(title: 'Frutos e Vegetais', imageAsset: 'lib/res/assets/images/categories/fruits.png'),
-  Categorie(title: 'Café da Manhã', imageAsset: 'lib/res/assets/images/categories/breakfast.png'),
-  Categorie(title: 'Bebidas', imageAsset: 'lib/res/assets/images/categories/beveares.png'),
-  Categorie(title: 'Carnes e Peixes', imageAsset: 'lib/res/assets/images/categories/meat.png'),
-  Categorie(title: 'Lanches', imageAsset: 'lib/res/assets/images/categories/chips.png'),
-  Categorie(title: 'Laticínios', imageAsset: 'lib/res/assets/images/categories/milk.png'),
-];

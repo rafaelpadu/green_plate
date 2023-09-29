@@ -13,6 +13,7 @@ class ThemeColors {
   static Color blueIconColor = const Color.fromRGBO(35, 108, 217, 1);
   static Color textFieldBackGround = const Color.fromRGBO(240, 241, 242, 1);
   static Color greyBackGroundColor = const Color.fromRGBO(159, 157, 157, .55);
+  static Color yellow = const Color.fromRGBO(252, 192, 78, 1);
 
   static Color greenBackGroundColor = const Color.fromRGBO(54, 179, 126, .14);
 
