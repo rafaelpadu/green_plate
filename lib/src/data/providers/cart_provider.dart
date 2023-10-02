@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:green_plate/src/domain/model/DTOs/order_item_dto.dart';
 import 'package:green_plate/src/domain/model/DTOs/pedido_dto.dart';
@@ -13,10 +14,38 @@ class CartProvider extends ChangeNotifier {
     return pedido!;
   }
 
-  void addItem(OrderItemDTO item) {
+  void addItem(OrderItemDTO newItem) {
     pedido ??= PedidoDTO.emptyPedido();
-    pedido!.orderItemList.add(item);
-    pedido!.itemTotal += item.itemTotal;
+    OrderItemDTO? itemFound =
+        pedido?.orderItemList.firstWhereOrNull((element) => element.stockDTO.id == newItem.stockDTO.id);
+    if (itemFound == null) {
+      pedido!.orderItemList.add(newItem);
+      updateTotalPedido();
+    } else {
+      newItem = itemFound;
+      addQtyToOrderItem(newItem);
+    }
+    notifyListeners();
+  }
+
+  void addQtyToOrderItem(OrderItemDTO item) {
+    item.qtyRequested = item.qtyRequested + 1;
+    item.itemTotal = (item.unitValue * item.qtyRequested);
+    int index = pedido!.orderItemList.indexWhere((element) => element.stockDTO.id == item.stockDTO.id);
+    pedido!.orderItemList[index] = item;
+    updateTotalPedido();
+    notifyListeners();
+  }
+
+  void removeQtyToOrderItem(OrderItemDTO item) {
+    item.qtyRequested = item.qtyRequested - 1;
+    if (item.qtyRequested == 0) {
+      pedido!.orderItemList.remove(item);
+    } else {
+      item.itemTotal = (item.unitValue * item.qtyRequested).ceilToDouble();
+      pedido!.orderItemList[pedido!.orderItemList.indexOf(item)] = item;
+    }
+    updateTotalPedido();
     notifyListeners();
   }
 
@@ -33,6 +62,10 @@ class CartProvider extends ChangeNotifier {
       pedido = PedidoDTO.fromJson(box.get('cart'));
       notifyListeners();
     }
+  }
+
+  updateTotalPedido() {
+    pedido!.itemTotal = pedido?.orderItemList.fold(0, (sum, obj) => (sum ?? 0) + (obj.itemTotal)) ?? 0;
   }
 
   @override

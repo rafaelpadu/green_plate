@@ -82,7 +82,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
   void _addToCart(CartProvider cartProvider, StockDTO stockDTO) {
     OrderItemDTO newOrderItem = OrderItemDTO(
       createdAt: DateTime.now(),
-      stockId: stockDTO.id,
+      stockDTO: stockDTO,
       itemTotal: stockDTO.priceList[0].unitValue,
       unitValue: stockDTO.priceList[0].unitValue,
       discount: 0,

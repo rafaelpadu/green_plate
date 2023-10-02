@@ -1,8 +1,10 @@
+import 'package:green_plate/src/domain/model/DTOs/stock_dto.dart';
+
 class OrderItemDTO {
   int? id;
   DateTime? createdAt;
   DateTime? updatedAt;
-  int stockId;
+  StockDTO stockDTO;
   double itemTotal;
   double unitValue;
   double discount;
@@ -13,7 +15,7 @@ class OrderItemDTO {
     this.id,
     this.createdAt,
     this.updatedAt,
-    required this.stockId,
+    required this.stockDTO,
     required this.itemTotal,
     required this.unitValue,
     required this.discount,
@@ -25,7 +27,7 @@ class OrderItemDTO {
         id: json["id"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
-        stockId: json["stockId"],
+        stockDTO: json["stockId"],
         itemTotal: json["itemTotal"].toDouble(),
         unitValue: json["unitValue"].toDouble(),
         discount: json["discount"].toDouble(),
@@ -37,7 +39,7 @@ class OrderItemDTO {
         "id": id,
         "createdAt": createdAt?.toIso8601String(),
         "updatedAt": updatedAt?.toIso8601String(),
-        "stockId": stockId,
+        "stockId": stockDTO,
         "itemTotal": itemTotal,
         "unitValue": unitValue,
         "discount": discount,

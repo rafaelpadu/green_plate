@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:green_plate/src/config/theme_colors.dart';
-import 'package:green_plate/src/domain/model/product.dart';
+import 'package:green_plate/src/domain/model/DTOs/order_item_dto.dart';
 import 'package:green_plate/src/utils/case_formatters.dart';
 
-class BagProductCard extends StatefulWidget {
-  const BagProductCard({super.key, required this.product});
-  final Product product;
-  @override
-  State<BagProductCard> createState() => _BagProductCardState();
-}
+class BagProductCard extends StatelessWidget {
+  const BagProductCard({
+    super.key,
+    required this.orderItem,
+    required this.plusQty,
+    required this.minusQty,
+  });
+  final OrderItemDTO orderItem;
+  final Function() plusQty;
+  final Function() minusQty;
 
-class _BagProductCardState extends State<BagProductCard> {
-  int qtyRequested = 1;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -21,19 +23,39 @@ class _BagProductCardState extends State<BagProductCard> {
         children: [
           Row(
             children: [
-              Image.asset(
-                widget.product.imageUrl,
-                width: 100,
+              Padding(
+                padding: const EdgeInsets.only(right: 4),
+                child: Image.network(
+                  orderItem.stockDTO.productDTO.imageUrl,
+                  width: 100,
+                  height: 70,
+                  loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                    if (loadingProgress == null) return child;
+                    return Center(
+                      child: CircularProgressIndicator(
+                        value: loadingProgress.expectedTotalBytes != null
+                            ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
+                            : null,
+                      ),
+                    );
+                  },
+                  errorBuilder: (context, error, stackTrace) => Image.asset(
+                    'lib/res/assets/images/imagem_padrao.png',
+                    fit: BoxFit.cover,
+                    width: 55,
+                    height: 70,
+                  ),
+                ),
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    widget.product.productDescription,
+                    orderItem.stockDTO.productDTO.name,
                     style: TextStyle(fontSize: 16, fontWeight: pesosDeFonte['medium']),
                   ),
                   Text(
-                    CaseFormatters().currencyBRLFormatter(widget.product.productValue),
+                    CaseFormatters().currencyBRLFormatter(orderItem.itemTotal),
                     style: TextStyle(
                       fontSize: 20,
                       color: ThemeColors.secondary,
@@ -50,7 +72,7 @@ class _BagProductCardState extends State<BagProductCard> {
                 color: ThemeColors.primary,
                 borderRadius: BorderRadius.circular(7),
                 child: InkWell(
-                  onTap: addQtyProduct,
+                  onTap: plusQty,
                   customBorder: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7)),
                   child: const Padding(
                     padding: EdgeInsets.all(8.0),
@@ -65,7 +87,7 @@ class _BagProductCardState extends State<BagProductCard> {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 4.0),
                 child: Text(
-                  qtyRequested.toString(),
+                  orderItem.qtyRequested.toString(),
                   style: TextStyle(fontWeight: pesosDeFonte['medium']),
                 ),
               ),
@@ -73,7 +95,7 @@ class _BagProductCardState extends State<BagProductCard> {
                 color: ThemeColors.errorColor,
                 borderRadius: BorderRadius.circular(7),
                 child: InkWell(
-                  onTap: rmQtyProduct,
+                  onTap: minusQty,
                   customBorder: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7)),
                   child: const Padding(
                     padding: EdgeInsets.only(top: 8, left: 8.0, right: 8.0, bottom: 8.0),
@@ -90,19 +112,5 @@ class _BagProductCardState extends State<BagProductCard> {
         ],
       ),
     );
-  }
-
-  addQtyProduct() {
-    setState(() {
-      qtyRequested++;
-    });
-  }
-
-  rmQtyProduct() {
-    if (qtyRequested > 0) {
-      setState(() {
-        qtyRequested--;
-      });
-    }
   }
 }

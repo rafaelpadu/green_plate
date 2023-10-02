@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:green_plate/src/config/theme_colors.dart';
-import 'package:green_plate/src/domain/model/categorie.dart';
-import 'package:green_plate/src/presentation/features/products/views/product_list_screen.dart';
-import 'package:green_plate/src/presentation/widgets/data_driven/simple_card_image.dart';
-import 'package:green_plate/src/presentation/widgets/data_driven/card_list.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

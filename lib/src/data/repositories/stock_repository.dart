@@ -40,4 +40,15 @@ class StockRepository {
     }
     return List.generate(respBody.length, (index) => StockDTO.fromJson(respBody[index]));
   }
+
+  Future<StockDTO> findStockByStockID(int stockId) async {
+    Uri uri = Uri.parse("$apiUrl/api/stock/$stockId");
+    http.Response resp = await client.get(uri);
+    dynamic respBody = json.decode(resp.body);
+    log.i(resp.request);
+    if (resp.statusCode != 200) {
+      throw NotFoundException(message: 'Não foi possível buscar os items em estoque');
+    }
+    return StockDTO.fromJson(respBody);
+  }
 }
