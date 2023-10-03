@@ -6,6 +6,7 @@ class StockDTO {
   DateTime createdAt;
   DateTime updatedAt;
   int storeId;
+  String storeTradeName;
   ProductDTO productDTO;
   int currentQty;
   int minimalQty;
@@ -18,6 +19,7 @@ class StockDTO {
     required this.createdAt,
     required this.updatedAt,
     required this.storeId,
+    required this.storeTradeName,
     required this.productDTO,
     required this.currentQty,
     required this.minimalQty,
@@ -31,6 +33,7 @@ class StockDTO {
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
         storeId: json["storeId"],
+        storeTradeName: json["storeTradeName"],
         productDTO: ProductDTO.fromJson(json["productDTO"]),
         currentQty: json["currentQty"],
         minimalQty: json["minimalQty"],
@@ -44,6 +47,7 @@ class StockDTO {
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
         "storeId": storeId,
+        "storeTradeName": storeTradeName,
         "productDTO": productDTO.toJson(),
         "currentQty": currentQty,
         "minimalQty": minimalQty,

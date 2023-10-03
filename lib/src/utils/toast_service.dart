@@ -20,8 +20,8 @@ class ToastService {
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.BOTTOM,
       timeInSecForIosWeb: 1,
-      textColor: Colors.black,
-      backgroundColor: ThemeColors.greenBackGroundColor,
+      textColor: Colors.white,
+      backgroundColor: ThemeColors.primary,
       fontSize: 12.0,
     );
   }

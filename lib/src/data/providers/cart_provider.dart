@@ -14,11 +14,14 @@ class CartProvider extends ChangeNotifier {
     return pedido!;
   }
 
-  void addItem(OrderItemDTO newItem) {
+  bool addItem(OrderItemDTO newItem) {
     pedido ??= PedidoDTO.emptyPedido();
     OrderItemDTO? itemFound =
         pedido?.orderItemList.firstWhereOrNull((element) => element.stockDTO.id == newItem.stockDTO.id);
     if (itemFound == null) {
+      if (pedido!.orderItemList.isNotEmpty && newItem.stockDTO.storeId != pedido?.orderItemList[0].stockDTO.storeId) {
+        return false;
+      }
       pedido!.orderItemList.add(newItem);
       updateTotalPedido();
     } else {
@@ -26,6 +29,7 @@ class CartProvider extends ChangeNotifier {
       addQtyToOrderItem(newItem);
     }
     notifyListeners();
+    return true;
   }
 
   void addQtyToOrderItem(OrderItemDTO item) {

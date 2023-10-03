@@ -45,6 +45,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                           productId: stockItem.id,
                           addToCart: () => _addToCart(cartProvider, stockItem),
                           productPage: _productPage,
+                          storeName: stockItem.storeTradeName,
                         );
                       }),
                     )
@@ -88,8 +89,12 @@ class _ProductListScreenState extends State<ProductListScreen> {
       discount: 0,
       qtyRequested: 1,
     );
-    cartProvider.addItem(newOrderItem);
-    ToastService.success('Produto adiciona na sacola com sucesso!');
+    bool resp = cartProvider.addItem(newOrderItem);
+    if (!resp) {
+      ToastService.warning("Os items de um mesmo pedido devem ser todos do mesmo estabelecimento");
+    } else {
+      ToastService.success("Produto adicionado na sacola com sucesso!");
+    }
   }
 
   void _productPage() {

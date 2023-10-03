@@ -2,25 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:green_plate/src/config/theme_colors.dart';
 
 class SaleProductCard extends StatelessWidget {
-  const SaleProductCard({
-    super.key,
-    required this.imageUrl,
-    required this.productValue,
-    required this.productDescription,
-    required this.productId,
-    required this.addToCart,
-    required this.productPage,
-  });
+  const SaleProductCard(
+      {super.key,
+      required this.imageUrl,
+      required this.productValue,
+      required this.productDescription,
+      required this.productId,
+      required this.addToCart,
+      required this.productPage,
+      required this.storeName});
   final String imageUrl;
   final double productValue;
   final String productDescription;
+  final String storeName;
   final int productId;
   final Function() addToCart;
   final Function() productPage;
   @override
   Widget build(BuildContext context) {
     return Container(
-      constraints: const BoxConstraints(minHeight: 257, maxHeight: 300),
+      constraints: const BoxConstraints(minHeight: 257, maxHeight: 320),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -60,6 +61,21 @@ class SaleProductCard extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Row(
+                children: [
+                  const Icon(
+                    Icons.storefront_outlined,
+                    size: 16,
+                  ),
+                  Expanded(
+                    child: Text(
+                      storeName,
+                      style: const TextStyle(fontSize: 12),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  )
+                ],
+              ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 child: Text(
