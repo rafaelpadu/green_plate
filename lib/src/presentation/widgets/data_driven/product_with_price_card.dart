@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:green_plate/src/config/theme_colors.dart';
+import 'package:green_plate/src/utils/case_formatters.dart';
 
 class ProductPriceCard extends StatelessWidget {
   const ProductPriceCard({
@@ -21,9 +22,24 @@ class ProductPriceCard extends StatelessWidget {
       constraints: const BoxConstraints(minHeight: 130, maxHeight: 135),
       child: Row(
         children: [
-          Image.asset(
+          Image.network(
             imageAsset,
-            width: 145,
+            width: 80,
+            loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+              if (loadingProgress == null) return child;
+              return Center(
+                child: CircularProgressIndicator(
+                  value: loadingProgress.expectedTotalBytes != null
+                      ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
+                      : null,
+                ),
+              );
+            },
+            errorBuilder: (context, error, stackTrace) => Image.asset(
+              'lib/res/assets/images/imagem_padrao.png',
+              fit: BoxFit.cover,
+              width: 120,
+            ),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 16),
@@ -36,6 +52,7 @@ class ProductPriceCard extends StatelessWidget {
                   child: Text(
                     productName,
                     style: TextStyle(fontSize: 16, fontWeight: pesosDeFonte['medium']),
+                    maxLines: 2,
                   ),
                 ),
                 Column(
@@ -50,7 +67,7 @@ class ProductPriceCard extends StatelessWidget {
                             color: ThemeColors.primaryFontColor.withOpacity(0.54)),
                       ),
                     Text(
-                      "R\$${realPrice.toString()}",
+                      CaseFormatters().currencyBRLFormatter(realPrice),
                       style: TextStyle(
                         color: ThemeColors.secondary,
                         fontSize: 20,

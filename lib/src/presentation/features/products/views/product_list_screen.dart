@@ -44,7 +44,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                           productDescription: stockItem.productDTO.description,
                           productId: stockItem.id,
                           addToCart: () => _addToCart(cartProvider, stockItem),
-                          productPage: _productPage,
+                          productPage: () => _productPage(stockItem),
                           storeName: stockItem.storeTradeName,
                         );
                       }),
@@ -97,15 +97,11 @@ class _ProductListScreenState extends State<ProductListScreen> {
     }
   }
 
-  void _productPage() {
+  void _productPage(StockDTO stockItem) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const ProductScreen(
-          value: 45.56,
-          productName: "Leite em Pó Integral Piracanjuba",
-          weight: 400,
-        ),
+        builder: (context) => ProductScreen(stockDTO: stockItem),
       ),
     );
   }

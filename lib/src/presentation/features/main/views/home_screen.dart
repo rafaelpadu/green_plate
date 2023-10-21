@@ -31,7 +31,6 @@ class _HomeScreenState extends State<HomeScreen> {
   PageFilter page = PageFilter(pageNumber: 0, pageSize: 5);
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _searchController.addListener(_onSearchChanged);
@@ -116,7 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     productDescription: stockItem.productDTO.description,
                     productId: stockItem.id,
                     addToCart: () => _addToCart(cartProvider, stockItem),
-                    productPage: _productPage,
+                    productPage: () => _productPage(stockItem),
                     storeName: stockItem.storeTradeName,
                   );
                 }),
@@ -128,9 +127,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void nextPage(BuildContext context) {
-    // Navigator.push(context, MaterialPageRoute(builder: (context) => const ProductListScreen()));
-  }
   void _onSearchChanged() {
     _debouncerTimer.cancel();
     _debouncerTimer = Timer(const Duration(milliseconds: 1500), () {
@@ -163,15 +159,11 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  void _productPage() {
+  void _productPage(StockDTO stockItem) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const ProductScreen(
-          value: 45.56,
-          productName: "Leite em Pó Integral Piracanjuba",
-          weight: 400,
-        ),
+        builder: (context) => ProductScreen(stockDTO: stockItem),
       ),
     );
   }

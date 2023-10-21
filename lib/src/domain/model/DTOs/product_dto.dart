@@ -1,3 +1,5 @@
+import 'package:green_plate/src/domain/enum/product_category.dart';
+
 class ProductDTO {
   int id;
   DateTime createdAt;
@@ -6,7 +8,7 @@ class ProductDTO {
   String description;
   String imageUrl;
   bool active;
-  String productCategory;
+  ProductCategory productCategory;
   int ean13;
 
   ProductDTO({
@@ -29,7 +31,7 @@ class ProductDTO {
         description: json["description"],
         imageUrl: json["imageUrl"],
         active: json["active"],
-        productCategory: json["productCategory"],
+        productCategory: ProductCategory.fromJson(json["productCategory"]) ?? ProductCategory.BREAKFAST,
         ean13: json["ean13"],
       );
 
@@ -41,7 +43,7 @@ class ProductDTO {
         "description": description,
         "imageUrl": imageUrl,
         "active": active,
-        "productCategory": productCategory,
+        "productCategory": productCategory.toJson(),
         "ean13": ean13,
       };
 }

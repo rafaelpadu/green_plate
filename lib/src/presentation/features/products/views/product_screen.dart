@@ -2,20 +2,21 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:green_plate/src/config/theme_colors.dart';
+import 'package:green_plate/src/data/error/exceptions.dart';
+import 'package:green_plate/src/data/providers/cart_provider.dart';
+import 'package:green_plate/src/domain/model/DTOs/order_item_dto.dart';
+import 'package:green_plate/src/domain/model/DTOs/stock_dto.dart';
 import 'package:green_plate/src/domain/model/product.dart';
+import 'package:green_plate/src/presentation/features/products/application/stock_service.dart';
 import 'package:green_plate/src/presentation/widgets/data_driven/carousel_image.dart';
 import 'package:green_plate/src/presentation/widgets/data_driven/product_with_price_card.dart';
+import 'package:green_plate/src/utils/case_formatters.dart';
+import 'package:green_plate/src/utils/toast_service.dart';
+import 'package:provider/provider.dart';
 
 class ProductScreen extends StatefulWidget {
-  final double value;
-  final double? weight;
-  final String productName;
-  const ProductScreen({
-    Key? key,
-    required this.value,
-    this.weight,
-    required this.productName,
-  }) : super(key: key);
+  final StockDTO stockDTO;
+  const ProductScreen({Key? key, required this.stockDTO}) : super(key: key);
 
   @override
   State<ProductScreen> createState() => _ProductScreenState();
@@ -23,11 +24,16 @@ class ProductScreen extends StatefulWidget {
 
 class _ProductScreenState extends State<ProductScreen> {
   int _indexPage = 0;
-  List<String> images = [
-    'lib/res/assets/images/products/leite_po_piracanjuba.jpg',
-    'lib/res/assets/images/products/leite_po_italac.jpg',
-  ];
+  List<String> images = [];
+  List<StockDTO> similarItems = [];
   final CarouselController controller = CarouselController();
+  @override
+  void initState() {
+    super.initState();
+    images.add(widget.stockDTO.productDTO.imageUrl);
+    WidgetsBinding.instance.addPostFrameCallback((_) => findProductByCategory());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,7 +65,7 @@ class _ProductScreenState extends State<ProductScreen> {
                       (int pageIndex) => Padding(
                         padding: const EdgeInsets.only(right: 16),
                         child: GestureDetector(
-                          onTap: () => goToThisImage(controller, pageIndex),
+                          onTap: () => switchImageCarousel(controller, pageIndex),
                           child: Container(
                             decoration: ShapeDecoration(
                               shape: RoundedRectangleBorder(
@@ -85,7 +91,7 @@ class _ProductScreenState extends State<ProductScreen> {
               Row(
                 children: [
                   Text(
-                    widget.productName,
+                    widget.stockDTO.productDTO.name,
                     style:
                         TextStyle(fontWeight: pesosDeFonte['medium'], fontSize: 20, color: ThemeColors.blackFontColor),
                   ),
@@ -96,12 +102,12 @@ class _ProductScreenState extends State<ProductScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    // Text(
+                    //   "${widget.weight?.ceil()} g",
+                    //   style: TextStyle(fontWeight: pesosDeFonte['bold'], fontSize: 29),
+                    // ),
                     Text(
-                      "${widget.weight?.ceil()} g",
-                      style: TextStyle(fontWeight: pesosDeFonte['bold'], fontSize: 29),
-                    ),
-                    Text(
-                      "R\$${widget.value}",
+                      CaseFormatters().currencyBRLFormatter(widget.stockDTO.priceList[0].unitValue),
                       style: TextStyle(
                         fontWeight: pesosDeFonte['bold'],
                         fontSize: 29,
@@ -119,7 +125,7 @@ class _ProductScreenState extends State<ProductScreen> {
                     Padding(
                       padding: const EdgeInsets.only(left: 8),
                       child: Text(
-                        'Produtos Lácteos',
+                        widget.stockDTO.productDTO.productCategory.translate,
                         style: TextStyle(fontWeight: pesosDeFonte['medium'], fontSize: 16),
                       ),
                     )
@@ -134,12 +140,29 @@ class _ProductScreenState extends State<ProductScreen> {
                     Padding(
                       padding: const EdgeInsets.only(left: 8),
                       child: Text(
-                        'Et quidem faciunt, ut summum bonum\nsit extremum et rationibus conquisitis\nde voluptate. Sed ut summum bonum \nsit id,',
+                        widget.stockDTO.productDTO.description,
                         style: TextStyle(fontWeight: pesosDeFonte['medium'], fontSize: 16),
                       ),
                     )
                   ],
                 ),
+              ),
+              Row(
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.only(right: 16),
+                    child: Icon(
+                      Icons.storefront_outlined,
+                      size: 32,
+                    ),
+                  ),
+                  Expanded(
+                    child: Text(
+                      widget.stockDTO.storeTradeName,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  )
+                ],
               ),
               const Padding(
                 padding: EdgeInsets.symmetric(vertical: 20),
@@ -152,16 +175,19 @@ class _ProductScreenState extends State<ProductScreen> {
                   ],
                 ),
               ),
-              ...Iterable<int>.generate(_productList.length).map(
+              ...Iterable<int>.generate(similarItems.length).map(
                 (index) {
-                  Product product = _productList[index];
+                  StockDTO stockItem = similarItems[index];
                   return Column(
                     children: [
-                      ProductPriceCard(
-                        imageAsset: product.imageUrl,
-                        productName: product.productDescription,
-                        price: product.productValue,
-                        discount: product.discount,
+                      GestureDetector(
+                        onTap: () => _goToProductPage(stockItem),
+                        child: ProductPriceCard(
+                          imageAsset: stockItem.productDTO.imageUrl,
+                          productName: stockItem.productDTO.name,
+                          price: stockItem.priceList[0].unitValue,
+                          discount: stockItem.priceList.length > 1 ? stockItem.priceList[1].unitValue : 0,
+                        ),
                       ),
                       Divider(
                         thickness: 2,
@@ -181,7 +207,7 @@ class _ProductScreenState extends State<ProductScreen> {
                         borderRadius: BorderRadius.circular(7),
                         child: InkWell(
                           customBorder: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7)),
-                          onTap: () {},
+                          onTap: () => _addToCart(widget.stockDTO),
                           child: Padding(
                             padding: const EdgeInsets.symmetric(vertical: 16.0),
                             child: Row(
@@ -216,7 +242,7 @@ class _ProductScreenState extends State<ProductScreen> {
     );
   }
 
-  goToThisImage(CarouselController controller, int pageIndex) {
+  switchImageCarousel(CarouselController controller, int pageIndex) {
     if (controller.ready) {
       setState(() {
         _indexPage = pageIndex;
@@ -224,21 +250,43 @@ class _ProductScreenState extends State<ProductScreen> {
       controller.animateToPage(pageIndex);
     }
   }
-}
 
-List<Product> _productList = [
-  Product(
-    imageUrl: 'lib/res/assets/images/products/contra_file.jpg',
-    productValue: 29.50,
-    productDescription: 'Contra Filé - Kg',
-    productId: 1,
-    discount: 10.58,
-  ),
-  Product(
-    imageUrl: 'lib/res/assets/images/products/peixe.jpg',
-    productValue: 18.99,
-    productDescription: 'Postas de Cação - 800g ',
-    productId: 1,
-    discount: 0.0,
-  ),
-];
+  void findProductByCategory() {
+    StockService stockService = StockService();
+    stockService.findAvailableStockItemsByProductCategory(widget.stockDTO.productDTO.productCategory).then((value) {
+      setState(() {
+        similarItems = value;
+      });
+    }).catchError((err) {
+      ToastService.error(err is GreenPlateException ? err.message : err.toString());
+    });
+  }
+
+  void _goToProductPage(StockDTO stockItem) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ProductScreen(stockDTO: stockItem),
+      ),
+    );
+  }
+
+  void _addToCart(StockDTO stockDTO) {
+    CartProvider cartProvider = Provider.of<CartProvider>(context, listen: false);
+    OrderItemDTO newOrderItem = OrderItemDTO(
+      createdAt: DateTime.now(),
+      stockDTO: stockDTO,
+      itemTotal: stockDTO.priceList[0].unitValue,
+      unitValue: stockDTO.priceList[0].unitValue,
+      discount: 0,
+      qtyRequested: 1,
+    );
+    bool resp = cartProvider.addItem(newOrderItem);
+    if (!resp) {
+      ToastService.warning("Os items de um mesmo pedido devem ser todos do mesmo estabelecimento");
+    } else {
+      ToastService.success("Produto adicionado na sacola com sucesso!");
+      Future.delayed(const Duration(milliseconds: 1500)).then((value) => Navigator.pop(context));
+    }
+  }
+}
