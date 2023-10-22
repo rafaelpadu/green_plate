@@ -5,13 +5,14 @@ import 'package:green_plate/src/config/theme_colors.dart';
 class ToastService {
   static Future error(String message) {
     return Fluttertoast.showToast(
-        msg: message,
-        toastLength: Toast.LENGTH_SHORT,
-        textColor: Colors.black,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-        backgroundColor: ThemeColors.errorColor,
-        fontSize: 12.0);
+      msg: message,
+      toastLength: Toast.LENGTH_SHORT,
+      textColor: Colors.black,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: ThemeColors.errorColor,
+      fontSize: 12.0,
+    );
   }
 
   static Future success(String message) {

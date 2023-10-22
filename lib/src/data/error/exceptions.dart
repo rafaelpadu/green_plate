@@ -12,3 +12,7 @@ class RefreshTokenException extends GreenPlateException {
 class NotFoundException extends GreenPlateException {
   NotFoundException({required super.message});
 }
+
+class LoginException extends GreenPlateException {
+  LoginException({required super.message});
+}
