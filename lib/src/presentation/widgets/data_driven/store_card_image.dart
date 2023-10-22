@@ -10,15 +10,14 @@ class StoreCardImage extends StatelessWidget {
   final double distance;
   final Function() goToStorePage;
   const StoreCardImage(
-      {Key? key,
+      {super.key,
       required this.imageUrl,
       required this.rating,
       required this.storeType,
       required this.storeName,
       required this.description,
       required this.distance,
-      required this.goToStorePage})
-      : super(key: key);
+      required this.goToStorePage});
 
   @override
   Widget build(BuildContext context) {

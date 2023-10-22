@@ -6,7 +6,6 @@ import 'package:green_plate/src/data/error/exceptions.dart';
 import 'package:green_plate/src/data/providers/cart_provider.dart';
 import 'package:green_plate/src/domain/model/DTOs/order_item_dto.dart';
 import 'package:green_plate/src/domain/model/DTOs/stock_dto.dart';
-import 'package:green_plate/src/domain/model/product.dart';
 import 'package:green_plate/src/presentation/features/products/application/stock_service.dart';
 import 'package:green_plate/src/presentation/widgets/data_driven/carousel_image.dart';
 import 'package:green_plate/src/presentation/widgets/data_driven/product_with_price_card.dart';

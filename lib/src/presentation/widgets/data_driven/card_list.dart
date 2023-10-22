@@ -5,9 +5,9 @@ class CardListWidget extends StatelessWidget {
   final List<Widget> cardItems;
 
   const CardListWidget({
-    Key? key,
+    super.key,
     required this.cardItems,
-  }) : super(key: key);
+  });
   @override
   Widget build(BuildContext context) {
     return Column(

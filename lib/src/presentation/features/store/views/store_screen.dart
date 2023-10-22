@@ -221,7 +221,7 @@ class _StoreScreenState extends State<StoreScreen> {
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.only(left: 16),
+                              padding: const EdgeInsets.only(left: 16),
                               child: Text(
                                 'R\$ 1.500,00',
                                 style: TextStyle(
@@ -331,7 +331,7 @@ class _StoreScreenState extends State<StoreScreen> {
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.only(left: 16),
+                              padding: const EdgeInsets.only(left: 16),
                               child: Text(
                                 'R\$ 1.500,00',
                                 style: TextStyle(

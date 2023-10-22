@@ -5,11 +5,11 @@ class SimpleCardImageWidget extends StatelessWidget {
   final String imageAsset;
   final Function() nextPage;
   const SimpleCardImageWidget({
-    Key? key,
+    super.key,
     required this.title,
     required this.imageAsset,
     required this.nextPage,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
