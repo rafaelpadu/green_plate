@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:green_plate/src/config/theme_colors.dart';
+import 'package:green_plate/src/data/error/exceptions.dart';
+import 'package:green_plate/src/utils/loading_service.dart';
+import 'package:green_plate/src/utils/toast_service.dart';
 
 import '../../../../../domain/model/DTOs/usuario_dto.dart';
+import '../../application/login_service.dart';
+import '../login_screen.dart';
 
 class PasswordConfirmationScreen extends StatefulWidget {
   const PasswordConfirmationScreen({super.key, required this.usuarioDTO});
@@ -13,6 +18,11 @@ class PasswordConfirmationScreen extends StatefulWidget {
 class _PasswordConfirmationScreenState extends State<PasswordConfirmationScreen> {
   final TextEditingController _passWordController = TextEditingController();
   final TextEditingController _confirmPassWordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  bool _submitted = false;
+  bool _showConfirmPassword = false;
+  bool _showPassword = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,58 +52,94 @@ class _PasswordConfirmationScreenState extends State<PasswordConfirmationScreen>
                 height: 200,
               ),
             ),
-            Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  child: TextFormField(
-                    controller: _passWordController,
+            Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    child: TextFormField(
+                      controller: _passWordController,
+                      textInputAction: TextInputAction.next,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide.none,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        hintText: 'Senha',
+                        prefixIcon: Icon(
+                          Icons.lock_outline,
+                          color: ThemeColors.primaryFontColor,
+                        ),
+                        suffixIcon: IconButton(
+                          icon: !_showPassword ? const Icon(Icons.visibility_off) : const Icon(Icons.visibility),
+                          color: ThemeColors.primaryFontColor,
+                          onPressed: () {
+                            setState(() {
+                              _showPassword = !_showPassword;
+                            });
+                          },
+                        ),
+                        fillColor: ThemeColors.textFieldBackGround,
+                        filled: true,
+                      ),
+                      keyboardType: TextInputType.visiblePassword,
+                      obscureText: !_showPassword,
+                      autovalidateMode: _submitted ? AutovalidateMode.always : AutovalidateMode.disabled,
+                      validator: (String? value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Campo não pode estar vazio';
+                        }
+                        if (value.length < 6) {
+                          return 'A senha precisa ter no minímo 6 carácteres';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  TextFormField(
+                    controller: _confirmPassWordController,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
                         borderSide: BorderSide.none,
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      hintText: 'Senha',
+                      hintText: 'Confirmar Senha',
                       prefixIcon: Icon(
                         Icons.lock_outline,
                         color: ThemeColors.primaryFontColor,
                       ),
-                      suffixIcon: Padding(
-                        padding: const EdgeInsets.only(right: 22),
-                        child: Icon(
-                          Icons.remove_red_eye_outlined,
-                          color: ThemeColors.primaryFontColor,
-                        ),
+                      suffixIcon: IconButton(
+                        icon: !_showConfirmPassword ? const Icon(Icons.visibility_off) : const Icon(Icons.visibility),
+                        color: ThemeColors.primaryFontColor,
+                        onPressed: () {
+                          setState(() {
+                            _showConfirmPassword = !_showConfirmPassword;
+                          });
+                        },
                       ),
                       fillColor: ThemeColors.textFieldBackGround,
                       filled: true,
                     ),
+                    keyboardType: TextInputType.visiblePassword,
+                    obscureText: !_showConfirmPassword,
+                    autovalidateMode: _submitted ? AutovalidateMode.always : AutovalidateMode.disabled,
+                    validator: (String? value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Campo não pode estar vazio';
+                      }
+                      if (value.length < 6) {
+                        return 'A senha precisa ter no minímo 6 carácteres';
+                      }
+                      if (value != _passWordController.text) {
+                        return 'As senhas devem ser iguais';
+                      }
+                      return null;
+                    },
+                    onFieldSubmitted: (value) => createNewPassword(),
                   ),
-                ),
-                TextFormField(
-                  controller: _confirmPassWordController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide.none,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    hintText: 'Confirmar Senha',
-                    prefixIcon: Icon(
-                      Icons.lock_outline,
-                      color: ThemeColors.primaryFontColor,
-                    ),
-                    suffixIcon: Padding(
-                      padding: const EdgeInsets.only(right: 22),
-                      child: Icon(
-                        Icons.remove_red_eye_outlined,
-                        color: ThemeColors.primaryFontColor,
-                      ),
-                    ),
-                    fillColor: ThemeColors.textFieldBackGround,
-                    filled: true,
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
             Material(
               color: ThemeColors.primary,
@@ -128,5 +174,28 @@ class _PasswordConfirmationScreenState extends State<PasswordConfirmationScreen>
         ),
       )),
     );
+  }
+
+  createNewPassword() {
+    LoginService loginService = LoginService();
+    setState(() => _submitted = true);
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
+    LoadingService.show(context);
+    loginService.createNewPassWord(widget.usuarioDTO.id, _passWordController.text).then((_) {
+      LoadingService.hide();
+      ToastService.success('Senha alterada com sucesso!');
+      redirectToLoginScreen();
+    }).catchError((err) {
+      LoadingService.hide();
+      ToastService.error(err is GreenPlateException
+          ? err.message
+          : 'Ocorreu um erro ao tentar alterar a sua senha. Tente novamente mais tarde');
+    });
+  }
+
+  redirectToLoginScreen() {
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginScreen()));
   }
 }

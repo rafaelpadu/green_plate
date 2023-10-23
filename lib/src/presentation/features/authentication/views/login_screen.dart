@@ -130,7 +130,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     keyboardType: TextInputType.visiblePassword,
                     obscureText: !_showPassword,
                     autovalidateMode: _submitted ? AutovalidateMode.always : AutovalidateMode.disabled,
-                    inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r'[/\\ ]'))],
                     validator: (String? value) {
                       if (value == null || value.isEmpty) {
                         return 'Campo não pode estar vazio';

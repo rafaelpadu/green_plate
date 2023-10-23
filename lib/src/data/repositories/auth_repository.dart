@@ -4,7 +4,7 @@ import 'package:green_plate/src/data/error/exceptions.dart';
 import 'package:green_plate/src/data/network/enviroment.dart';
 import 'package:green_plate/src/data/network/http_client.dart';
 import 'package:green_plate/src/domain/model/DTOs/usuario_dto.dart';
-import 'package:green_plate/src/presentation/features/authentication/application/token_dto.dart';
+import 'package:green_plate/src/domain/model/DTOs/token_dto.dart';
 import 'package:logger/logger.dart';
 import "package:http/http.dart" as http;
 
