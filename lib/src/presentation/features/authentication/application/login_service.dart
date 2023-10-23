@@ -22,7 +22,7 @@ class LoginService {
     await storage.write(key: 'userId', value: userId.toString());
   }
 
-  Future<void> checkIfUserNameExists(String userName) {
+  Future<UsuarioDTO> checkIfUserNameExists(String userName) {
     UsuarioRepository usuarioRepository = UsuarioRepository();
     return usuarioRepository.checkUserName(userName);
   }

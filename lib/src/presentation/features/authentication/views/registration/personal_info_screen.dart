@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:green_plate/src/config/theme_colors.dart';
+import 'package:green_plate/src/domain/model/DTOs/usuario_dto.dart';
 import 'package:green_plate/src/presentation/features/authentication/views/reset_password/password_confirmation_screen.dart';
 
 class PersonalInfoScreen extends StatefulWidget {
@@ -141,6 +142,11 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
   }
 
   _goToPassWordScreen() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => PasswordConfirmationScreen()));
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => PasswordConfirmationScreen(
+                  usuarioDTO: UsuarioDTO.emptyUsuario(),
+                )));
   }
 }

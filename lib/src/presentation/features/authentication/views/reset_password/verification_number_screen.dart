@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:green_plate/src/config/theme_colors.dart';
 import 'package:green_plate/src/data/error/exceptions.dart';
+import 'package:green_plate/src/domain/model/DTOs/usuario_dto.dart';
 import 'package:green_plate/src/presentation/features/authentication/application/login_service.dart';
 import 'package:green_plate/src/presentation/features/authentication/views/reset_password/code_confirmation_screen.dart';
 import 'package:green_plate/src/utils/loading_service.dart';
@@ -103,7 +104,7 @@ class _VerificationUserNameScreenState extends State<VerificationUserNameScreen>
                     borderRadius: BorderRadius.circular(8),
                     child: InkWell(
                       customBorder: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                      onTap: () => goToResetPasswordScreen(context),
+                      onTap: () => checkUserName(context),
                       child: Padding(
                         padding: const EdgeInsets.all(12.0),
                         child: Row(
@@ -144,10 +145,10 @@ class _VerificationUserNameScreenState extends State<VerificationUserNameScreen>
       return;
     }
     LoadingService.show(context);
-    loginService.checkIfUserNameExists(userNameController.text).then((_) {
+    loginService.checkIfUserNameExists(userNameController.text).then((usuario) {
       ToastService.success('E-mail encontrado com  sucesso');
       LoadingService.hide();
-      goToResetPasswordScreen(context);
+      goToResetPasswordScreen(context, usuario);
     }).catchError((err) {
       LoadingService.hide();
       ToastService.error(
@@ -156,7 +157,14 @@ class _VerificationUserNameScreenState extends State<VerificationUserNameScreen>
     });
   }
 
-  goToResetPasswordScreen(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => const CodeConfirmationScreen()));
+  goToResetPasswordScreen(BuildContext context, UsuarioDTO usuarioDTO) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SecretWordConfirmationScreen(
+          usuarioDTO: usuarioDTO,
+        ),
+      ),
+    );
   }
 }

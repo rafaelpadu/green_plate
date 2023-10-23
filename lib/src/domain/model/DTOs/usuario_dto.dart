@@ -5,6 +5,8 @@ class UsuarioDTO {
   String password;
   int customerId;
   bool active;
+  String secretQuestion;
+  String secretAnswer;
 
   UsuarioDTO({
     required this.id,
@@ -13,6 +15,8 @@ class UsuarioDTO {
     required this.password,
     required this.customerId,
     required this.active,
+    required this.secretAnswer,
+    required this.secretQuestion,
   });
 
   static UsuarioDTO emptyUsuario() {
@@ -23,6 +27,8 @@ class UsuarioDTO {
       password: '',
       customerId: 0,
       active: true,
+      secretAnswer: '',
+      secretQuestion: '',
     );
   }
 
@@ -34,6 +40,8 @@ class UsuarioDTO {
       password: password,
       customerId: 0,
       active: true,
+      secretAnswer: '',
+      secretQuestion: '',
     );
   }
 
@@ -44,6 +52,8 @@ class UsuarioDTO {
         password: json["password"],
         customerId: json["customerId"],
         active: json["active"],
+        secretAnswer: json['secretAnswer'],
+        secretQuestion: json['secretQuestion'],
       );
 
   Map<String, dynamic> toJson() => {
@@ -53,5 +63,7 @@ class UsuarioDTO {
         "password": password,
         "customerId": customerId,
         "active": active,
+        'secretAnswer': secretAnswer,
+        'secretQuestion': secretQuestion,
       };
 }

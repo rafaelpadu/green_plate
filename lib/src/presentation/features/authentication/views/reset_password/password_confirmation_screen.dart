@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:green_plate/src/config/theme_colors.dart';
 
-class PasswordConfirmationScreen extends StatefulWidget {
-  const PasswordConfirmationScreen({super.key});
+import '../../../../../domain/model/DTOs/usuario_dto.dart';
 
+class PasswordConfirmationScreen extends StatefulWidget {
+  const PasswordConfirmationScreen({super.key, required this.usuarioDTO});
+  final UsuarioDTO usuarioDTO;
   @override
   State<PasswordConfirmationScreen> createState() => _PasswordConfirmationScreenState();
 }
