@@ -3,14 +3,12 @@ import 'dart:io';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:green_plate/src/config/theme_colors.dart';
 import 'package:green_plate/src/data/error/exceptions.dart';
 import 'package:green_plate/src/presentation/features/authentication/application/login_service.dart';
 import 'package:green_plate/src/presentation/features/authentication/views/registration/registration_mode_selection.dart';
 import 'package:green_plate/src/presentation/features/authentication/views/reset_password/verification_number_screen.dart';
 import 'package:green_plate/src/presentation/features/main/green_plate_screen.dart';
-import 'package:green_plate/src/presentation/features/main/views/home_screen.dart';
 import 'package:green_plate/src/presentation/widgets/independent/green_plate_logo.dart';
 import 'package:green_plate/src/utils/loading_service.dart';
 import 'package:green_plate/src/utils/toast_service.dart';
@@ -23,7 +21,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  late FocusNode _node;
+  late FocusNode emailFocusNode;
+  late FocusNode passwordFocusNode;
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -32,7 +31,8 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
-    _node = FocusNode();
+    emailFocusNode = FocusNode();
+    passwordFocusNode = FocusNode();
   }
 
   @override
@@ -72,9 +72,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     child: TextFormField(
                       controller: _emailController,
+                      textInputAction: TextInputAction.next,
+                      onFieldSubmitted: (_) {
+                        _fieldFocusChange(context, emailFocusNode, passwordFocusNode);
+                      },
                       keyboardType: TextInputType.emailAddress,
                       inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r'[/\\ ]'))],
-                      focusNode: _node,
+                      focusNode: emailFocusNode,
                       validator: (String? value) {
                         if (value == null || value.isEmpty) {
                           return 'Campo não pode estar vazio';
@@ -90,7 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           borderSide: BorderSide.none,
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        hintText: 'E-mail ou celular',
+                        hintText: 'E-mail',
                         prefixIcon: const Icon(Icons.account_circle_outlined),
                         fillColor: ThemeColors.textFieldBackGround,
                         filled: true,
@@ -99,6 +103,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   TextFormField(
                     controller: _passwordController,
+                    focusNode: passwordFocusNode,
+                    textInputAction: TextInputAction.next,
+                    onFieldSubmitted: (_) {
+                      passwordFocusNode.unfocus();
+                      login();
+                    },
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
                         borderSide: BorderSide.none,
@@ -218,7 +228,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   goToResetPasswordScreen() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => const VerificationNumberScreen()));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => const VerificationUserNameScreen()));
   }
 
   goToRegistrationScreen() {
@@ -246,4 +256,12 @@ class _LoginScreenState extends State<LoginScreen> {
       LoadingService.hide();
     });
   }
+
+  @override
+  void dispose() {
+    emailFocusNode.dispose();
+    super.dispose();
+  }
+
+  void _fieldFocusChange(BuildContext context, FocusNode emailFocusNode, FocusNode passwordFocusNode) {}
 }

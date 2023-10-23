@@ -1,5 +1,6 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:green_plate/src/data/repositories/auth_repository.dart';
+import 'package:green_plate/src/data/repositories/usuario_repository.dart';
 import 'package:green_plate/src/domain/model/DTOs/usuario_dto.dart';
 import 'package:green_plate/src/presentation/features/authentication/application/token_dto.dart';
 import 'package:green_plate/src/utils/jwt_decode.dart';
@@ -19,5 +20,10 @@ class LoginService {
     await storage.write(key: 'token', value: token);
     await storage.write(key: 'refreshToken', value: refreshToken);
     await storage.write(key: 'userId', value: userId.toString());
+  }
+
+  Future<void> checkIfUserNameExists(String userName) {
+    UsuarioRepository usuarioRepository = UsuarioRepository();
+    return usuarioRepository.checkUserName(userName);
   }
 }

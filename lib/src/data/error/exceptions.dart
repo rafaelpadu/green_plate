@@ -16,3 +16,7 @@ class NotFoundException extends GreenPlateException {
 class LoginException extends GreenPlateException {
   LoginException({required super.message});
 }
+
+class UserNotFoundException extends GreenPlateException {
+  UserNotFoundException({required super.message});
+}
