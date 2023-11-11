@@ -183,6 +183,19 @@ class _PasswordConfirmationScreenState extends State<PasswordConfirmationScreen>
       return;
     }
     LoadingService.show(context);
+    if (widget.usuarioDTO.id == 0) {
+      widget.usuarioDTO.password = _passWordController.text;
+      loginService.createNewUsuario(widget.usuarioDTO).then((value) {
+        LoadingService.hide();
+        ToastService.success('Conta criada com sucesso!');
+        redirectToLoginScreen();
+      }).catchError((err) {
+        LoadingService.hide();
+        ToastService.error(err is GreenPlateException
+            ? err.message
+            : 'Ocorreu um erro ao tentar alterar a sua senha. Tente novamente mais tarde');
+      });
+    }
     loginService.createNewPassWord(widget.usuarioDTO.id, _passWordController.text).then((_) {
       LoadingService.hide();
       ToastService.success('Senha alterada com sucesso!');

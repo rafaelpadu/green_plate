@@ -34,4 +34,14 @@ class UsuarioRepository {
       throw UserNotFoundException(message: 'Não foi possível alterar a senha de cadastro');
     }
   }
+
+  Future<void> createNewUsuario(UsuarioDTO usuarioDTO) async {
+    Uri uri = Uri.parse("$apiUrl/api/user");
+    final body = jsonEncode(usuarioDTO.toJson());
+    http.Response resp = await client.post(uri, body: body);
+    log.i(resp.request);
+    if (resp.statusCode != 200) {
+      throw UserNotFoundException(message: 'Não foi possível cadastrar a sua conta. Tente novamente mais tarde');
+    }
+  }
 }

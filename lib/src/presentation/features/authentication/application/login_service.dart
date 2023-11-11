@@ -8,6 +8,7 @@ import 'package:green_plate/src/utils/jwt_decode.dart';
 
 class LoginService {
   AuthRepository authRepository = AuthRepository();
+  UsuarioRepository usuarioRepository = UsuarioRepository();
   final storage = const FlutterSecureStorage();
   refreshLogin() {}
   Future<void> login(String userName, String password) async {
@@ -24,13 +25,15 @@ class LoginService {
   }
 
   Future<UsuarioDTO> checkIfUserNameExists(String userName) {
-    UsuarioRepository usuarioRepository = UsuarioRepository();
     return usuarioRepository.checkUserName(userName);
   }
 
   Future<void> createNewPassWord(int userId, String password) {
-    UsuarioRepository usuarioRepository = UsuarioRepository();
     ChangePasswordDTO changePasswordDto = ChangePasswordDTO(userId: userId, oldPassword: '', newPassword: password);
     return usuarioRepository.resetNewPassword(changePasswordDto);
+  }
+
+  Future<void> createNewUsuario(UsuarioDTO usuarioDTO) async {
+    return await usuarioRepository.createNewUsuario(usuarioDTO);
   }
 }

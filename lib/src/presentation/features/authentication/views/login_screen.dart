@@ -6,12 +6,13 @@ import 'package:flutter/services.dart';
 import 'package:green_plate/src/config/theme_colors.dart';
 import 'package:green_plate/src/data/error/exceptions.dart';
 import 'package:green_plate/src/presentation/features/authentication/application/login_service.dart';
-import 'package:green_plate/src/presentation/features/authentication/views/registration/registration_mode_selection.dart';
 import 'package:green_plate/src/presentation/features/authentication/views/reset_password/verification_number_screen.dart';
 import 'package:green_plate/src/presentation/features/main/green_plate_screen.dart';
 import 'package:green_plate/src/presentation/widgets/independent/green_plate_logo.dart';
 import 'package:green_plate/src/utils/loading_service.dart';
 import 'package:green_plate/src/utils/toast_service.dart';
+
+import 'registration/personal_info_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -231,7 +232,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   goToRegistrationScreen() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => const RegistrationModeSelectionScreen()));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => const PersonalInfoScreen()));
   }
 
   login() {
