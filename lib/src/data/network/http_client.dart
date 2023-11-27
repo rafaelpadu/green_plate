@@ -6,7 +6,6 @@ import "package:green_plate/src/presentation/features/authentication/application
 import "package:http/http.dart" as http;
 import "package:logger/logger.dart";
 import 'package:http_interceptor/http_interceptor.dart';
-import "package:shared_preferences/shared_preferences.dart";
 
 class AuthorizationInterceptor implements InterceptorContract {
   Logger logger = Logger();
@@ -16,16 +15,18 @@ class AuthorizationInterceptor implements InterceptorContract {
     try {
       const storage = FlutterSecureStorage();
       var token = await storage.read(key: 'token');
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      int? expirationToken = prefs.getInt('expirationToken');
+      String? userId = await storage.read(key: 'userId');
+      String? expirationToken = await storage.read(key: 'expirationToken');
       if (expirationToken != null) {
-        DateTime expDate = DateTime.fromMillisecondsSinceEpoch(expirationToken * 1000);
+        int expToken = int.parse(expirationToken);
+        DateTime expDate = DateTime.fromMillisecondsSinceEpoch(expToken * 1000);
         if (expDate.isBefore(DateTime.now())) {
           await AuthedApiClient.refreshToken();
         }
       }
       data.headers['Authorization'] = 'Bearer $token';
       data.headers['Content-type'] = 'application/json';
+      data.headers['userId'] = userId.toString();
     } catch (e) {
       logger.e(e);
     }

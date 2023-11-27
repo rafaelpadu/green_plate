@@ -24,4 +24,15 @@ class AuthRepository {
     }
     return TokenDTO.fromJson(respBody['data']);
   }
+
+  Future<TokenDTO> refreshLogin(String refreshToken) async {
+    Uri uri = Uri.parse('$apiUrl/auth/refresh/$refreshToken');
+    http.Response resp = await client.get(uri);
+    Map<String, dynamic> respBody = json.decode(resp.body);
+    log.i(resp.request);
+    if (resp.statusCode != 200) {
+      throw LoginException(message: respBody['message']);
+    }
+    return TokenDTO.fromJson(respBody['data']);
+  }
 }

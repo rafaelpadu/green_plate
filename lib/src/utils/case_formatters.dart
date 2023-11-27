@@ -24,4 +24,14 @@ class CaseFormatters {
     final formatter = NumberFormat("#,##0.00", "pt_BR");
     return "R\$ ${formatter.format(value)}";
   }
+
+  String formatarCPF(String cpf) {
+    return cpf.replaceAllMapped(RegExp(r'^(\d{3})(\d{3})(\d{3})(\d{2})$'), (match) {
+      return '${match[1]}.${match[2]}.${match[3]}-${match[4]}';
+    });
+  }
+
+  String desformatarCPF(String cpf) {
+    return cpf.replaceAll(RegExp(r'[^0-9]'), '');
+  }
 }

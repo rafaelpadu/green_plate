@@ -10,18 +10,29 @@ class LoginService {
   AuthRepository authRepository = AuthRepository();
   UsuarioRepository usuarioRepository = UsuarioRepository();
   final storage = const FlutterSecureStorage();
-  refreshLogin() {}
+  Future<bool> refreshLogin() async {
+    String? refreshToken = await storage.read(key: 'refreshToken');
+    if (refreshToken != null) {
+      TokenDTO token = await authRepository.refreshLogin(refreshToken);
+      Map<String, dynamic> tokenDecoded = parseJwtPayLoad(token.token);
+      await saveUserInfoToStorage(token.token, token.refreshToken, tokenDecoded['userId'], tokenDecoded['exp']);
+      return true;
+    }
+    return false;
+  }
+
   Future<void> login(String userName, String password) async {
     UsuarioDTO usuarioDTO = UsuarioDTO.loginUsuario(userName, password);
     TokenDTO token = await authRepository.login(usuarioDTO);
     Map<String, dynamic> tokenDecoded = parseJwtPayLoad(token.token);
-    await saveUserInfoToStorage(token.token, token.refreshToken, tokenDecoded['userId']);
+    await saveUserInfoToStorage(token.token, token.refreshToken, tokenDecoded['userId'], tokenDecoded['exp']);
   }
 
-  Future<void> saveUserInfoToStorage(String token, String refreshToken, int userId) async {
+  Future<void> saveUserInfoToStorage(String token, String refreshToken, int userId, int expirationToken) async {
     await storage.write(key: 'token', value: token);
     await storage.write(key: 'refreshToken', value: refreshToken);
     await storage.write(key: 'userId', value: userId.toString());
+    await storage.write(key: 'expirationToken', value: expirationToken.toString());
   }
 
   Future<UsuarioDTO> checkIfUserNameExists(String userName) {

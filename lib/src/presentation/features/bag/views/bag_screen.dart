@@ -3,10 +3,7 @@ import 'package:green_plate/src/config/theme_colors.dart';
 import 'package:green_plate/src/data/providers/cart_provider.dart';
 import 'package:green_plate/src/domain/model/DTOs/order_item_dto.dart';
 import 'package:green_plate/src/domain/model/DTOs/pedido_dto.dart';
-import 'package:green_plate/src/domain/model/DTOs/stock_dto.dart';
 import 'package:green_plate/src/presentation/features/bag/views/bag_product_card.dart';
-import 'package:green_plate/src/presentation/features/products/application/stock_service.dart';
-import 'package:green_plate/src/presentation/widgets/data_driven/delivery_location.dart';
 import 'package:green_plate/src/utils/case_formatters.dart';
 import 'package:green_plate/src/utils/green_plate_dialog.dart';
 import 'package:green_plate/src/utils/loading_service.dart';
@@ -137,7 +134,7 @@ class _BagScreenState extends State<BagScreen> {
                                   style: TextStyle(fontSize: 15, fontWeight: pesosDeFonte['medium']),
                                 ),
                                 Text(
-                                  'R\$1.000,00',
+                                  CaseFormatters().currencyBRLFormatter(pedido.itemTotal),
                                   style: TextStyle(fontSize: 15, fontWeight: pesosDeFonte['medium']),
                                 ),
                               ],

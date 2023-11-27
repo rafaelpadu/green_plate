@@ -46,27 +46,27 @@ class _HomeScreenState extends State<HomeScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
         child: Column(
           children: [
-            ListTile(
-              onTap: () {},
-              contentPadding: EdgeInsets.zero,
-              leading: CircleAvatar(
-                backgroundColor: primaryLightColor[300],
-                radius: 23,
-                child: Icon(
-                  Icons.place_outlined,
-                  color: ThemeColors.backGroundColor,
-                  size: 24,
-                ),
-              ),
-              title: const Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [Text('Sua Localização'), Text('Av. Afonso Pena, 133')],
-              ),
-              trailing: Icon(
-                Icons.arrow_forward_ios_rounded,
-                color: ThemeColors.primaryFontColor,
-              ),
-            ),
+            // ListTile(
+            //   onTap: () {},
+            //   contentPadding: EdgeInsets.zero,
+            //   leading: CircleAvatar(
+            //     backgroundColor: primaryLightColor[300],
+            //     radius: 23,
+            //     child: Icon(
+            //       Icons.place_outlined,
+            //       color: ThemeColors.backGroundColor,
+            //       size: 24,
+            //     ),
+            //   ),
+            //   title: const Column(
+            //     crossAxisAlignment: CrossAxisAlignment.start,
+            //     children: [Text('Sua Localização'), Text('Av. Afonso Pena, 133')],
+            //   ),
+            //   trailing: Icon(
+            //     Icons.arrow_forward_ios_rounded,
+            //     color: ThemeColors.primaryFontColor,
+            //   ),
+            // ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 24),
               child: Container(
@@ -106,20 +106,29 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-              child: CardListWidget(
-                cardItems: List.generate(stockDTOList.length, (index) {
-                  StockDTO stockItem = stockDTOList[index];
-                  return SaleProductCard(
-                    imageUrl: stockItem.productDTO.imageUrl,
-                    productValue: stockItem.priceList[0].unitValue,
-                    productDescription: stockItem.productDTO.description,
-                    productId: stockItem.id,
-                    addToCart: () => _addToCart(cartProvider, stockItem),
-                    productPage: () => _productPage(stockItem),
-                    storeName: stockItem.storeTradeName,
-                  );
-                }),
-              ),
+              child: stockDTOList.isNotEmpty
+                  ? CardListWidget(
+                      cardItems: List.generate(stockDTOList.length, (index) {
+                        StockDTO stockItem = stockDTOList[index];
+                        return SaleProductCard(
+                          imageUrl: stockItem.productDTO.imageUrl,
+                          productValue: stockItem.priceList[0].unitValue,
+                          productDescription: stockItem.productDTO.description,
+                          productId: stockItem.id,
+                          addToCart: () => _addToCart(cartProvider, stockItem),
+                          productPage: () => _productPage(stockItem),
+                          storeName: stockItem.storeTradeName,
+                        );
+                      }),
+                    )
+                  : const Padding(
+                      padding: EdgeInsets.only(top: 32),
+                      child: Text(
+                        'Não foi encontrado nenhum produto com esse termo',
+                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
             ),
           ],
         ),

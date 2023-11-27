@@ -147,6 +147,10 @@ class _LoginScreenState extends State<LoginScreen> {
             Column(
               children: [
                 GestureDetector(
+                  onTap: () => goToHomePlate(),
+                  child: const Text('Voltar para Aplicativo'),
+                ),
+                GestureDetector(
                   onTap: () => goToResetPasswordScreen(),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 16),
@@ -246,7 +250,7 @@ class _LoginScreenState extends State<LoginScreen> {
     loginService.login(_emailController.text, _passwordController.text).then((value) {
       ToastService.success('Login realizado com sucesso');
       LoadingService.hide();
-      Navigator.push(context, MaterialPageRoute(builder: (context) => const GreenPlateScreen()));
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const GreenPlateScreen()));
     }).catchError((err) {
       if (err is SocketException) {
         ToastService.error('Sistema está offline no momento. Tente novamente mais tarde');
@@ -264,4 +268,8 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _fieldFocusChange(BuildContext context, FocusNode emailFocusNode, FocusNode passwordFocusNode) {}
+
+  goToHomePlate() {
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const GreenPlateScreen()));
+  }
 }

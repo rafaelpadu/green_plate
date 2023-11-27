@@ -31,8 +31,8 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          constraints: BoxConstraints(minHeight: MediaQuery.sizeOf(context).height - 80),
-          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+          constraints: BoxConstraints(minHeight: MediaQuery.sizeOf(context).height - 100),
+          padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
