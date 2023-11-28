@@ -39,7 +39,7 @@ class OrderItemDTO {
         "id": id,
         "createdAt": createdAt?.toIso8601String(),
         "updatedAt": updatedAt?.toIso8601String(),
-        "stockId": stockDTO,
+        "stockId": stockDTO.id,
         "itemTotal": itemTotal,
         "unitValue": unitValue,
         "discount": discount,

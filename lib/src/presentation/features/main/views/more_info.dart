@@ -6,6 +6,7 @@ import 'package:green_plate/src/domain/model/DTOs/customer_dto.dart';
 import 'package:green_plate/src/presentation/features/authentication/views/login_screen.dart';
 import 'package:green_plate/src/presentation/features/main/application/more_info_service.dart';
 import 'package:green_plate/src/presentation/features/personal_info/view/profile.dart';
+import 'package:green_plate/src/utils/case_formatters.dart';
 import 'package:green_plate/src/utils/toast_service.dart';
 
 class MoreInfoScreen extends StatefulWidget {
@@ -53,7 +54,7 @@ class _MoreInfoScreenState extends State<MoreInfoScreen> {
                         style: TextStyle(fontSize: 18, fontWeight: pesosDeFonte['semi-bold']),
                       ),
                       Text(
-                        currentCustomer!.cpf != null ? currentCustomer!.cpf.toString() : '',
+                        currentCustomer!.cpf != null ? CaseFormatters().formatarCPF(currentCustomer!.cpf!) : '',
                         style: TextStyle(fontSize: 15, fontWeight: pesosDeFonte['medium']),
                       ),
                     ],

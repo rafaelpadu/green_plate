@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:green_plate/main.dart';
 import 'package:green_plate/src/config/theme_colors.dart';
 import 'package:green_plate/src/data/error/exceptions.dart';
 import 'package:green_plate/src/domain/model/DTOs/customer_dto.dart';

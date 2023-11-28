@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:green_plate/src/config/theme_colors.dart';
+import 'package:green_plate/src/data/error/exceptions.dart';
 import 'package:green_plate/src/data/providers/cart_provider.dart';
 import 'package:green_plate/src/domain/model/DTOs/order_item_dto.dart';
 import 'package:green_plate/src/domain/model/DTOs/pedido_dto.dart';
+import 'package:green_plate/src/presentation/features/bag/application/pedido_service.dart';
 import 'package:green_plate/src/presentation/features/bag/views/bag_product_card.dart';
 import 'package:green_plate/src/utils/case_formatters.dart';
 import 'package:green_plate/src/utils/green_plate_dialog.dart';
 import 'package:green_plate/src/utils/loading_service.dart';
+import 'package:green_plate/src/utils/toast_service.dart';
 import 'package:provider/provider.dart';
 
 class BagScreen extends StatefulWidget {
@@ -243,20 +247,50 @@ class _BagScreenState extends State<BagScreen> {
     });
   }
 
-  confirmPedido() {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return const GreenPlateDialog(
-            titlePartOne: "Deseja",
-            titlePartThree: "o pedido?",
-            titlePartTwo: " Confirmar ",
-            type: AlertType.confirmation,
-          );
-        }).then((value) {
-      if (value) {
-        LoadingService.show(context);
+  confirmPedido() async {
+    const storage = FlutterSecureStorage();
+
+    storage.read(key: 'userId').then((userId) {
+      if (userId == null) {
+        ToastService.warning('Você precisa estar logado para poder criar um pedido');
+        return null;
       }
+      int? userIdInt = int.tryParse(userId);
+      if (userIdInt == null) {
+        ToastService.error('Erro ao tentar criar um novo pedido');
+        return null;
+      }
+      if (pedido.orderItemList.isNotEmpty) {
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return const GreenPlateDialog(
+                titlePartOne: "Deseja",
+                titlePartThree: "o pedido?",
+                titlePartTwo: " Confirmar ",
+                type: AlertType.confirmation,
+              );
+            }).then((value) {
+          if (value) {
+            LoadingService.show(context);
+            PedidoService pedidoService = PedidoService();
+            pedidoService.createNewPedido(pedido, userIdInt).then((value) {
+              LoadingService.hide();
+              ToastService.success('Pedido criado com sucesso!');
+              Provider.of<CartProvider>(context, listen: false).clearPedido();
+            }).catchError((err) {
+              LoadingService.hide();
+              ToastService.error(err is GreenPlateException ? err.message : 'Erro ao tentar criar um novo pedido');
+              return null;
+            });
+          }
+        }).catchError((err) {
+          ToastService.error(err is GreenPlateException ? err.message : 'Erro ao tentar criar um novo pedido');
+          return null;
+        });
+      }
+    }).catchError((err) {
+      ToastService.error(err is GreenPlateException ? err.message : 'Erro ao tentar criar um novo pedido');
     });
   }
 }

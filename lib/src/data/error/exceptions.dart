@@ -24,3 +24,7 @@ class UserNotFoundException extends GreenPlateException {
 class CustomerNotFoundException extends GreenPlateException {
   CustomerNotFoundException({required super.message});
 }
+
+class PedidoException extends GreenPlateException {
+  PedidoException({required super.message});
+}

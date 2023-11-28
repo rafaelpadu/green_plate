@@ -72,6 +72,11 @@ class CartProvider extends ChangeNotifier {
     pedido!.itemTotal = pedido?.orderItemList.fold(0, (sum, obj) => (sum ?? 0) + (obj.itemTotal)) ?? 0;
   }
 
+  void clearPedido() {
+    pedido = PedidoDTO.emptyPedido();
+    notifyListeners();
+  }
+
   @override
   void dispose() {
     super.dispose();
