@@ -6,26 +6,23 @@ class StoreCardImage extends StatelessWidget {
   final double rating;
   final String storeType;
   final String storeName;
-  final String description;
-  final double distance;
   final Function() goToStorePage;
-  const StoreCardImage(
-      {super.key,
-      required this.imageUrl,
-      required this.rating,
-      required this.storeType,
-      required this.storeName,
-      required this.description,
-      required this.distance,
-      required this.goToStorePage});
+  const StoreCardImage({
+    super.key,
+    required this.imageUrl,
+    required this.rating,
+    required this.storeType,
+    required this.storeName,
+    required this.goToStorePage,
+  });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: goToStorePage,
       child: SizedBox(
-        width: 167,
-        height: 168,
+        width: 255,
+        height: 255,
         child: Card(
           color: Colors.white,
           surfaceTintColor: Colors.white,
@@ -33,48 +30,71 @@ class StoreCardImage extends StatelessWidget {
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(9)),
           clipBehavior: Clip.antiAliasWithSaveLayer,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Image.asset(
+              Container(),
+              Image.network(
                 imageUrl,
-                fit: BoxFit.fill,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 2),
-                child: Text(
-                  storeName,
-                  style: TextStyle(fontWeight: pesosDeFonte['medium']),
+                width: 140,
+                loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                  if (loadingProgress == null) return child;
+                  return Center(
+                    child: CircularProgressIndicator(
+                      value: loadingProgress.expectedTotalBytes != null
+                          ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
+                          : null,
+                    ),
+                  );
+                },
+                errorBuilder: (context, error, stackTrace) => Image.asset(
+                  'lib/res/assets/images/imagem_padrao.png',
+                  fit: BoxFit.cover,
+                  width: 140,
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+              Column(
                 children: [
-                  const Icon(
-                    Icons.star,
-                    color: Colors.yellow,
-                    size: 14,
-                  ),
                   Padding(
-                    padding: const EdgeInsets.only(right: 4),
-                    child: Text(
-                      rating.toString(),
-                      style: const TextStyle(color: Colors.yellow, fontSize: 10),
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            storeName,
+                            style: TextStyle(fontWeight: pesosDeFonte['medium']),
+                            textAlign: TextAlign.center,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  Text(
-                    "| $storeType | ",
-                    style: const TextStyle(fontSize: 10),
-                  ),
-                  Text(
-                    "${distance.toString()} km",
-                    style: const TextStyle(fontSize: 10),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(
+                          Icons.star,
+                          color: Colors.yellow,
+                          size: 14,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 4),
+                          child: Text(
+                            rating.toString(),
+                            style: const TextStyle(color: Colors.yellow, fontSize: 10),
+                          ),
+                        ),
+                        Text(
+                          "| $storeType ",
+                          style: const TextStyle(fontSize: 10),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: Text(description, style: const TextStyle(fontSize: 10)),
-              )
             ],
           ),
         ),
