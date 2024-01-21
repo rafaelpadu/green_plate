@@ -7,4 +7,8 @@ class HomeService {
   Future<List<StockDTO>> findStockListByAnything(PageFilter page) async {
     return stockRepository.findStockByProductNameOrStoreTradeName(page);
   }
+
+  Future<List<StockDTO>> findStockListByStoreIDByAnything(int storeId, PageFilter page) async {
+    return stockRepository.findStockByStoreIdByProductName(storeId, page);
+  }
 }

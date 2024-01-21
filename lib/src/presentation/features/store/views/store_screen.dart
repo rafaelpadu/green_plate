@@ -1,6 +1,14 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:green_plate/src/config/theme_colors.dart';
+import 'package:green_plate/src/data/error/exceptions.dart';
+import 'package:green_plate/src/domain/model/DTOs/stock_dto.dart';
 import 'package:green_plate/src/domain/model/DTOs/store_dto.dart';
+import 'package:green_plate/src/presentation/features/main/application/home_service.dart';
+import 'package:green_plate/src/utils/loading_service.dart';
+import 'package:green_plate/src/utils/page_filter.dart';
+import 'package:green_plate/src/utils/toast_service.dart';
 
 class StoreScreen extends StatefulWidget {
   const StoreScreen({super.key, required this.storeDTO});
@@ -10,7 +18,30 @@ class StoreScreen extends StatefulWidget {
 }
 
 class _StoreScreenState extends State<StoreScreen> {
+  HomeService homeService = HomeService();
+
   final TextEditingController _marketSearchController = TextEditingController();
+  Timer _debouncerTimer = Timer(const Duration(milliseconds: 1000), () {});
+  List<StockDTO> stockDTOList = [];
+  bool isLoading = false;
+  PageFilter page = PageFilter(pageNumber: 0, pageSize: 20);
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _marketSearchController.addListener(_onSearchChanged);
+      getProdutListByStoreIdByProductName('');
+    });
+    super.initState();
+  }
+
+  void _onSearchChanged() {
+    _debouncerTimer.cancel();
+    _debouncerTimer = Timer(const Duration(milliseconds: 1500), () {
+      getProdutListByStoreIdByProductName(_marketSearchController.text);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -202,116 +233,6 @@ class _StoreScreenState extends State<StoreScreen> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    "Destaques",
-                    style: TextStyle(fontWeight: pesosDeFonte['medium'], fontSize: 16),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              constraints: const BoxConstraints(maxHeight: 140),
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Row(
-                children: [
-                  Image.network('https://cdn-icons-png.flaticon.com/512/1521/1521121.png'),
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Text(
-                          'Full Cream Milk Powder Instant',
-                          style: TextStyle(
-                            fontWeight: pesosDeFonte['medium'],
-                            fontSize: 16,
-                            color: ThemeColors.primaryFontLowOpacityColor,
-                          ),
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              "R\$1.000,00",
-                              style: TextStyle(
-                                fontWeight: pesosDeFonte['semi-bold'],
-                                fontSize: 20,
-                                color: ThemeColors.secondary,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 16),
-                              child: Text(
-                                'R\$ 1.500,00',
-                                style: TextStyle(
-                                    decoration: TextDecoration.lineThrough,
-                                    fontWeight: pesosDeFonte['semi-bold'],
-                                    color: ThemeColors.primaryFontLowOpacityColor),
-                              ),
-                            )
-                          ],
-                        )
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ),
-            Divider(
-              color: ThemeColors.dividerColor,
-            ),
-            Container(
-              constraints: const BoxConstraints(maxHeight: 140),
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Row(
-                children: [
-                  Image.network('https://cdn-icons-png.flaticon.com/512/1521/1521121.png'),
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Text(
-                          'Full Cream Milk Powder Instant',
-                          style: TextStyle(
-                            fontWeight: pesosDeFonte['medium'],
-                            fontSize: 16,
-                            color: ThemeColors.primaryFontLowOpacityColor,
-                          ),
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              "R\$1.000,00",
-                              style: TextStyle(
-                                fontWeight: pesosDeFonte['semi-bold'],
-                                fontSize: 20,
-                                color: ThemeColors.secondary,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 16),
-                              child: Text(
-                                'R\$ 1.500,00',
-                                style: TextStyle(
-                                    decoration: TextDecoration.lineThrough,
-                                    fontWeight: pesosDeFonte['semi-bold'],
-                                    color: ThemeColors.primaryFontLowOpacityColor),
-                              ),
-                            )
-                          ],
-                        )
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ),
-            Divider(
-              color: ThemeColors.dividerColor,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
                     "Produtos",
                     style: TextStyle(fontWeight: pesosDeFonte['medium'], fontSize: 16),
                   ),
@@ -319,66 +240,88 @@ class _StoreScreenState extends State<StoreScreen> {
               ),
             ),
             Container(
-              constraints: const BoxConstraints(maxHeight: 140),
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Row(
-                children: [
-                  Image.asset('lib/res/assets/images/products/leite_po_dano.png'),
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Text(
-                          'Arla DANO Full Cream Milk Powder Instant',
-                          style: TextStyle(
-                            fontWeight: pesosDeFonte['medium'],
-                            fontSize: 16,
-                            color: ThemeColors.primaryFontLowOpacityColor,
-                          ),
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              "R\$1.000,00",
-                              style: TextStyle(
-                                fontWeight: pesosDeFonte['semi-bold'],
-                                fontSize: 20,
-                                color: ThemeColors.secondary,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 16),
-                              child: Text(
-                                'R\$ 1.500,00',
-                                style: TextStyle(
-                                    decoration: TextDecoration.lineThrough,
-                                    fontWeight: pesosDeFonte['semi-bold'],
-                                    color: ThemeColors.primaryFontLowOpacityColor),
-                              ),
-                            )
-                          ],
-                        )
-                      ],
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+              child: stockDTOList.isNotEmpty
+                  ? Column(
+                      children: List.generate(stockDTOList.length, (index) {
+                      StockDTO stockItem = stockDTOList[index];
+                      return ProductStoreCard(
+                        stockDTO: stockItem,
+                      );
+                    }))
+                  : const Padding(
+                      padding: EdgeInsets.only(top: 32),
+                      child: Text(
+                        'Não foi encontrado nenhum produto',
+                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+                        textAlign: TextAlign.center,
+                      ),
                     ),
-                  )
-                ],
-              ),
             ),
-            Divider(
-              color: ThemeColors.dividerColor,
-            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void getProdutListByStoreIdByProductName(String queryText) {
+    LoadingService.show(context);
+
+    isLoading = true;
+    page.queryText = queryText;
+    homeService.findStockListByStoreIDByAnything(widget.storeDTO.id, page).then((value) {
+      setState(() {
+        stockDTOList = value;
+        isLoading = false;
+      });
+      LoadingService.hide();
+    }).catchError((err) {
+      LoadingService.hide();
+      isLoading = false;
+      ToastService.error(err is GreenPlateException ? err.message : err.toString());
+    });
+  }
+}
+
+class ProductStoreCard extends StatelessWidget {
+  const ProductStoreCard({super.key, required this.stockDTO});
+  final StockDTO stockDTO;
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Column(
+          children: [
             Container(
               constraints: const BoxConstraints(maxHeight: 140),
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Row(
                 children: [
-                  Image.asset('lib/res/assets/images/products/leite_po_nido.png'),
+                  Image.network(
+                    stockDTO.productDTO.imageUrl,
+                    width: 120,
+                    loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return Center(
+                        child: CircularProgressIndicator(
+                          value: loadingProgress.expectedTotalBytes != null
+                              ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
+                              : null,
+                        ),
+                      );
+                    },
+                    errorBuilder: (context, error, stackTrace) => Image.asset(
+                      'lib/res/assets/images/imagem_padrao.png',
+                      fit: BoxFit.cover,
+                      width: 120,
+                    ),
+                  ),
                   Expanded(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Text(
-                          'Arla DANO Full Cream Milk Powder Instant',
+                          stockDTO.productDTO.name,
                           style: TextStyle(
                             fontWeight: pesosDeFonte['medium'],
                             fontSize: 16,
@@ -388,23 +331,24 @@ class _StoreScreenState extends State<StoreScreen> {
                         Row(
                           children: [
                             Text(
-                              "R\$1.000,00",
+                              "R\$ ${stockDTO.priceList[0].unitValue.toStringAsFixed(2).replaceAll('.', ',')}",
                               style: TextStyle(
                                 fontWeight: pesosDeFonte['semi-bold'],
                                 fontSize: 20,
                                 color: ThemeColors.secondary,
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 16),
-                              child: Text(
-                                'R\$ 1.500,00',
-                                style: TextStyle(
-                                    decoration: TextDecoration.lineThrough,
-                                    fontWeight: pesosDeFonte['semi-bold'],
-                                    color: ThemeColors.primaryFontLowOpacityColor),
-                              ),
-                            )
+                            if (stockDTO.priceList.length > 1)
+                              Padding(
+                                padding: const EdgeInsets.only(left: 16),
+                                child: Text(
+                                  "R\$ ${stockDTO.priceList[0].unitValue.toStringAsFixed(2).replaceAll('.', ',')}",
+                                  style: TextStyle(
+                                      decoration: TextDecoration.lineThrough,
+                                      fontWeight: pesosDeFonte['semi-bold'],
+                                      color: ThemeColors.primaryFontLowOpacityColor),
+                                ),
+                              )
                           ],
                         )
                       ],
@@ -417,8 +361,8 @@ class _StoreScreenState extends State<StoreScreen> {
               color: ThemeColors.dividerColor,
             ),
           ],
-        ),
-      ),
+        )
+      ],
     );
   }
 }

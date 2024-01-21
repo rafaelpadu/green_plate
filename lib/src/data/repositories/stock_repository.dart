@@ -67,4 +67,19 @@ class StockRepository {
     }
     return List.generate(respBody.length, (index) => StockDTO.fromJson(respBody[index]));
   }
+
+  Future<List<StockDTO>> findStockByStoreIdByProductName(int storeId, PageFilter page) async {
+    Uri uri = Uri.parse("$apiUrl/api/stock/search-anything-by-store/$storeId");
+    final body = page.toJson();
+    http.Response resp = await client.post(uri, body: body);
+    List<dynamic> respBody = json.decode(resp.body);
+    log.i(resp.request);
+    if (resp.statusCode != 200) {
+      throw NotFoundException(message: 'Não foi possível buscar os items em estoque');
+    }
+    if (respBody.isEmpty) {
+      return [];
+    }
+    return List.generate(respBody.length, (index) => StockDTO.fromJson(respBody[index]));
+  }
 }
